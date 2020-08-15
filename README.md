@@ -1,2 +1,6 @@
 # Smart-Money-Flutter
-Convert Ionic App to Flutter.
+* I decided to convert the entire App Ionic Smart Money to Flutter App.
+## Using
+* Slidy (CLI).
+* Modular.
+* Mobx.
