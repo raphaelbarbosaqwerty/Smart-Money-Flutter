@@ -19,32 +19,6 @@ class ContainerGradientWidget extends StatelessWidget {
           ),
         ),
       ),
-      Positioned(
-        top: 20,
-        left: 0,
-        right: 0,
-        child: Container(
-          child: Center(
-            child: Text(
-              'Saldo Atual',
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
-          ),
-        ),
-      ),
-      Positioned(
-        bottom: 55,
-        left: 0,
-        right: 0,
-        child: Container(
-          child: Center(
-            child: Text(
-              'R\$ 0,00',
-              style: TextStyle(color: Colors.white, fontSize: 32),
-            ),
-          ),
-        ),
-      )
       ],
     );
   }

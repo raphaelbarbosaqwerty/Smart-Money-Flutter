@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smart_money/app/components/pie_chart/indicator.dart';
 import 'package:smart_money/app/components/pie_chart/pie_chart_widget.dart';
+import 'package:smart_money/app/shared/components/balance/balance_widget.dart';
 import 'home_controller.dart';
 
 
@@ -30,9 +31,15 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                ContainerGradientWidget(
-                  colors: GradientColors.violet,
+                Stack(
+                  children: [
+                    ContainerGradientWidget(
+                      colors: GradientColors.violet,
+                    ),
+                    BalanceWidget()
+                  ],
                 ),
+                
                 CardWidget(
                   children: <Widget>[
                     ListTile(
@@ -109,38 +116,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         ),
                       ],
                     ),
-                    // SizedBox(
-                    //   child: Steps(
-                    //     direction: Axis.vertical,
-                    //     size: 7,
-                    //     path: {'color': Colors.white, 'width': 2.0},
-                    //     steps: [
-                    //       {
-                    //         'color': Colors.white,
-                    //         'background': Colors.red,
-                    //         'label': '',
-                    //       },
-                    //       {
-                    //         'color': Colors.white,
-                    //         'background': Colors.lightBlue.shade200,
-                    //         'label': '1',
-                    //         'content': Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: <Widget>[
-                    //             Text(
-                    //               'Laborum exercitation',
-                    //               style: TextStyle(fontSize: 22.0),
-                    //             ),
-                    //             Text(
-                    //               'Qui et consectetur esse duis excepteur magna consectetur.',
-                    //               style: TextStyle(fontSize: 12.0),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       },
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(
                       height: 18,
                     ),

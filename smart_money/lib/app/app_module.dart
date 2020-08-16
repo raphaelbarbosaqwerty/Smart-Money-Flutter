@@ -1,3 +1,5 @@
+import 'package:smart_money/app/shared/components/balance/balance_controller.dart';
+
 import 'components/card/card_controller.dart';
 import 'components/pie_chart/pie_chart_controller.dart';
 import 'components/container_gradient/container_gradient_controller.dart';
@@ -12,6 +14,7 @@ import 'modules/launch/launch_module.dart';
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
+        Bind((i) => BalanceController()),
         Bind((i) => CardController()),
         Bind((i) => ContainerGradientController()),
         Bind((i) => PieChartController()),
