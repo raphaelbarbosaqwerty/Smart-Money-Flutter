@@ -1,0 +1,10 @@
+smart_money/lib/main.dart
+smart_money/lib/app/app_module.dart
+smart_money/lib/app/app_widget.dart
+smart_money/lib/app/modules/home/home_module.dart
+smart_money/lib/app/app_controller.dart
+smart_money/lib/app/modules/home/home_page.dart
+smart_money/test/app/modules/home/home_page_test.dart
+smart_money/test/app/app_controller_test.dart
+smart_money/lib/app/modules/home/home_controller.dart
+smart_money/test/app/modules/home/home_controller_test.dart
