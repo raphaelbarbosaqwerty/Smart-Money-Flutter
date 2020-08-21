@@ -7,8 +7,7 @@ import 'package:smart_money/app/components/card/card_widget.dart';
 import 'package:smart_money/app/components/container_gradient/container_gradient_widget.dart';
 import 'package:smart_money/app/components/dropdown_button/dropdown_button_widget.dart';
 import 'package:smart_money/app/components/form_field/form_field_widget.dart';
-import 'package:smart_money/app/shared/components/balance/balance_widget.dart';
-import 'package:steps/steps.dart';
+import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
 import 'launch_controller.dart';
 
 class LaunchPage extends StatefulWidget {
@@ -141,51 +140,43 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                FloatingActionButton(
+                FloatingCustomButtonWidget(
                   heroTag: 'Calender',
                   onPressed: () {
-                      print('Button');
-                    },
-                  backgroundColor: Hexcolor('#34495e'),
-                  elevation: 0,
+                    print('Button');
+                  },
                   child: Icon(Icons.calendar_today),
                 ),
                 SizedBox(
                   width: 16,
                 ),
-                FloatingActionButton(
+                FloatingCustomButtonWidget(
                   heroTag: 'Edit',
                   onPressed: () {
-                      print('Button');
-                    },
-                  backgroundColor: Hexcolor('#34495e'),
-                  elevation: 0,
+                    print('Button');
+                  },
                   child: Icon(Icons.edit),
                 ),
                 SizedBox(
                   width: 16,
                 ),
-                FloatingActionButton(
+                FloatingCustomButtonWidget(
                   heroTag: 'Pin',
                   onPressed: () {
-                      print('Button');
-                    },
-                  backgroundColor: Hexcolor('#34495e'),
-                  elevation: 0,
+                    print('Button');
+                  },
                   child: Icon(Icons.pin_drop),
                 ),
                 SizedBox(
                   width: 16,
                 ),
-                FloatingActionButton(
+                FloatingCustomButtonWidget(
                   heroTag: 'Camera',
                   onPressed: () {
-                      print('Button');
-                    },
-                  backgroundColor: Hexcolor('#34495e'),
-                  elevation: 0,
+                    print('Button');
+                  },
                   child: Icon(Icons.camera),
-                )
+                ),
               ],
             ),
           ),
@@ -196,8 +187,8 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
               children: [
                 OutlineButton(
                   child: Text("DEBITAR", style: TextStyle(fontSize: 18)),
-                  onPressed: () {
-                    print('A');
+                  onPressed: () async {
+                    await controller.testFunction();
                   },
                   textColor: Colors.green,
                   borderSide: BorderSide(color: Colors.green),

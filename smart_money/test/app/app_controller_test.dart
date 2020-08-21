@@ -1,8 +1,7 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:smart_money/app/app_module.dart';
 
-import 'package:smart_money/smart_money/app/app_controller.dart';
-import 'package:smart_money/smart_money/app/app_module.dart';
 
 void main() {
   initModule(AppModule());

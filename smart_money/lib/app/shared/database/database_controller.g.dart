@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'launch_controller.dart';
+part of 'database_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'launch_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LaunchController on _LaunchControllerBase, Store {
-  final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
+mixin _$DatabaseController on _DatabaseControllerBase, Store {
+  final _$valueAtom = Atom(name: '_DatabaseControllerBase.value');
 
   @override
   int get value {
@@ -24,25 +24,17 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$testFunctionAsyncAction =
-      AsyncAction('_LaunchControllerBase.testFunction');
-
-  @override
-  Future testFunction() {
-    return _$testFunctionAsyncAction.run(() => super.testFunction());
-  }
-
-  final _$_LaunchControllerBaseActionController =
-      ActionController(name: '_LaunchControllerBase');
+  final _$_DatabaseControllerBaseActionController =
+      ActionController(name: '_DatabaseControllerBase');
 
   @override
   void increment() {
-    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.increment');
+    final _$actionInfo = _$_DatabaseControllerBaseActionController.startAction(
+        name: '_DatabaseControllerBase.increment');
     try {
       return super.increment();
     } finally {
-      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+      _$_DatabaseControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

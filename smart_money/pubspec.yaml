@@ -29,6 +29,7 @@ dependencies:
   fl_chart: ^0.11.0
   flutter_gradient_colors: ^1.0.0
   steps: ^1.0.1
+  floor: ^0.14.0
   flutter:
     sdk: flutter
 
@@ -40,6 +41,7 @@ dev_dependencies:
   mockito: ^4.1.1
   mobx_codegen: ^1.1.0+1
   build_runner: ^1.10.1
+  floor_generator: ^0.14.0
   flutter_test:
     sdk: flutter
 
