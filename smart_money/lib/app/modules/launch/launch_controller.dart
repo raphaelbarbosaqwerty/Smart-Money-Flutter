@@ -12,22 +12,52 @@ abstract class _LaunchControllerBase with Store {
   
   IDatabaseRepository _databaseRepository = Modular.get();
 
+  _LaunchControllerBase() {
+    getDebit();
+  }
+  
   @observable
-  int value = 0;
+  String value = "";
 
-  @action testFunction() async {
-    var categoriesDao = await _databaseRepository.accessCategoriesTable();
-    CategoriesModel categoriesModel = CategoriesModel(name: 'Test', color: 'Null', isCredit: 0, isDebit: 1, isDefault:0);
+  @observable
+  List<CategoriesModel> categoriesModels = [];
 
-    CategoriesService categoriesService = CategoriesService();
-    await categoriesService.initColumnsDatabase();
-    // await categoriesDao.insertCategory(categoriesModel);
-    var response = await categoriesDao.getAll();
-    print(response);
+  @observable
+  String dropDownCategories;
+
+  @observable
+  bool debit = true;
+
+  @observable
+  String valueType = '+';
+
+  @action
+  void changeValueType() {
+    debit = !debit;
+    debit ? valueType = "-" : valueType = "+";
+    debit ? getDebit() : getCredit();
   }
 
   @action
-  void increment() {
-    value++;
+  changeValue(String newValue) => value = newValue;
+
+  @action
+  getDebit() async {
+    dropDownCategories = "Alimentação";
+    categoriesModels = [];
+    var categoriesDao = await _databaseRepository.accessCategoriesTable();
+    categoriesModels = await categoriesDao.getDebit();
+  }
+
+  @action
+  getCredit() async {
+    dropDownCategories = "Empréstimos";
+    categoriesModels = [];
+    var categoriesDao = await _databaseRepository.accessCategoriesTable();
+    categoriesModels = await categoriesDao.getCredit();
+  }
+
+  @action changeCategories(String newDropDownCategories) async {
+    dropDownCategories = newDropDownCategories;
   }
 }

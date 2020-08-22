@@ -15,8 +15,6 @@ class CategoriesService extends Disposable implements ICategoriesService {
     await initColumnsDatabase();
     var response = await categoriesDao.getAll();
     print(response);
-    
-    // database.categoriesDao.insertCategory();
   }
 
   Future<void> initColumnsDatabase() async {

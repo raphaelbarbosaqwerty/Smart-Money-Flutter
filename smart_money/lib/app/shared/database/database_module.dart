@@ -10,8 +10,8 @@ class DatabaseModule extends ChildModule {
       ];
 
   @override
-  List<Router> get routers => [
-        Router(Modular.initialRoute, child: (_, args) => DatabasePage()),
+  List<ModularRouter> get routers => [
+        ModularRouter(Modular.initialRoute, child: (_, args) => DatabasePage()),
       ];
 
   static Inject get to => Inject<DatabaseModule>.of();

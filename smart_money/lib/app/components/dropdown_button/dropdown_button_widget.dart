@@ -1,10 +1,11 @@
 // import 'package:crm_one_flutter/app/modules/login/submodules/webservice/models/webservice_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 
 class DropdownButtonWidget extends StatelessWidget {
   
-  final List<String> listDatabases;
+  final List<CategoriesModel> listDatabases;
   final onChanged;
   final value;
   final hint;
@@ -23,11 +24,11 @@ class DropdownButtonWidget extends StatelessWidget {
         onChanged: onChanged,
         dropdownColor: Hexcolor('34495e'),
         style: TextStyle(color: Colors.white),
-        items: listDatabases?.map((value) {
+        items: listDatabases?.map((map) {
           return DropdownMenuItem<String>(
-            value: value.toString(),
+            value: map.name.toString(),
             child: Text(
-              value.toString(),
+              map.name.toString(),
               maxLines: 1,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, color: Colors.white),

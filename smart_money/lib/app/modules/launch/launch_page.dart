@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -83,10 +84,16 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: SizedBox(
                   height: 60,
-                  child: FlatButton(
-                    child: Text('R\$', style: TextStyle(color: Colors.white, fontSize: 24)),
-                    onPressed: () {},
-                  ),
+                  child: Observer(
+                    builder: (_) {
+                      return FlatButton(
+                        child: Text('${controller.valueType} R\$', style: TextStyle(color: Colors.white, fontSize: 24)),
+                        onPressed: () {
+                          controller.changeValueType();
+                        },
+                      );
+                    },
+                  )
                 ),
               ),
               Flexible(
@@ -95,10 +102,10 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                   child: Observer(
                     builder: (_) {
                       return FormFieldWidget(
-                        controller: TextEditingController(text: '0,05'),
+                        controller: MoneyMaskedTextController(leftSymbol: ''),
                         labelText: 'Valor',
                         errorText: null,
-                        onChanged: null,
+                        onChanged: controller.changeValue
                       );
                     },
                   ),
@@ -123,11 +130,10 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                   ),
                   child: DropdownButtonHideUnderline(
                       child: DropdownButtonWidget(
-                      listDatabases: listDatabases,
-                      value: listDatabases[0], //controller?.dropDownDatabase,
+                      listDatabases: controller.categoriesModels,
+                      value: controller?.dropDownCategories,//controller?.dropDownCategories, //controller?.dropDownDatabase,
                       onChanged: (String newDatabase) {
-                        print('Change to: $newDatabase');
-                        // controller.changeDatabase(newDatabase); 
+                        controller.changeCategories(newDatabase); 
                       },
                     ),
                   )
@@ -143,7 +149,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 FloatingCustomButtonWidget(
                   heroTag: 'Calender',
                   onPressed: () {
-                    print('Button');
+                    print(controller.value);
                   },
                   child: Icon(Icons.calendar_today),
                 ),
@@ -188,7 +194,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 OutlineButton(
                   child: Text("DEBITAR", style: TextStyle(fontSize: 18)),
                   onPressed: () async {
-                    await controller.testFunction();
+                    print('Debit');
                   },
                   textColor: Colors.green,
                   borderSide: BorderSide(color: Colors.green),

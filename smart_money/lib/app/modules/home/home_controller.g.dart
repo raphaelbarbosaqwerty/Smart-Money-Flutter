@@ -24,6 +24,14 @@ mixin _$HomeController on _HomeControllerBase, Store {
     });
   }
 
+  final _$testFunctionAsyncAction =
+      AsyncAction('_HomeControllerBase.testFunction');
+
+  @override
+  Future testFunction() {
+    return _$testFunctionAsyncAction.run(() => super.testFunction());
+  }
+
   final _$_HomeControllerBaseActionController =
       ActionController(name: '_HomeControllerBase');
 

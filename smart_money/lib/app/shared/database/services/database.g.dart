@@ -62,6 +62,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   CategoriesDao _categoriesDaoInstance;
 
+  EntriesDao _entriesDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -81,6 +83,8 @@ class _$FlutterDatabase extends FlutterDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `categories` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `color` TEXT, `isDefault` INTEGER, `isCredit` INTEGER, `isDebit` INTEGER)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `entries` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `amount` REAL, `description` TEXT, `entryAt` TEXT, `latitude` REAL, `longitude` REAL, `address` TEXT, `image` TEXT, `isInit` INTEGER, `category_id` INTEGER, FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -91,6 +95,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   CategoriesDao get categoriesDao {
     return _categoriesDaoInstance ??= _$CategoriesDao(database, changeListener);
+  }
+
+  @override
+  EntriesDao get entriesDao {
+    return _entriesDaoInstance ??= _$EntriesDao(database, changeListener);
   }
 }
 
@@ -156,5 +165,115 @@ class _$CategoriesDao extends CategoriesDao {
   Future<void> insertCategoryList(List<CategoriesModel> categoryModel) async {
     await _categoriesModelInsertionAdapter.insertList(
         categoryModel, OnConflictStrategy.abort);
+  }
+}
+
+class _$EntriesDao extends EntriesDao {
+  _$EntriesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _entriesModelInsertionAdapter = InsertionAdapter(
+            database,
+            'entries',
+            (EntriesModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'amount': item.amount,
+                  'description': item.description,
+                  'entryAt': item.entryAt,
+                  'latitude': item.latitude,
+                  'longitude': item.longitude,
+                  'address': item.address,
+                  'image': item.image,
+                  'isInit': item.isInit,
+                  'category_id': item.categoryId
+                }),
+        _entriesModelUpdateAdapter = UpdateAdapter(
+            database,
+            'entries',
+            ['id'],
+            (EntriesModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'amount': item.amount,
+                  'description': item.description,
+                  'entryAt': item.entryAt,
+                  'latitude': item.latitude,
+                  'longitude': item.longitude,
+                  'address': item.address,
+                  'image': item.image,
+                  'isInit': item.isInit,
+                  'category_id': item.categoryId
+                }),
+        _entriesModelDeletionAdapter = DeletionAdapter(
+            database,
+            'entries',
+            ['id'],
+            (EntriesModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'amount': item.amount,
+                  'description': item.description,
+                  'entryAt': item.entryAt,
+                  'latitude': item.latitude,
+                  'longitude': item.longitude,
+                  'address': item.address,
+                  'image': item.image,
+                  'isInit': item.isInit,
+                  'category_id': item.categoryId
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _entriesMapper = (Map<String, dynamic> row) => EntriesModel(
+      id: row['id'] as int,
+      amount: row['amount'] as double,
+      description: row['description'] as String,
+      entryAt: row['entryAt'] as String,
+      latitude: row['latitude'] as double,
+      longitude: row['longitude'] as double,
+      address: row['address'] as String,
+      image: row['image'] as String,
+      isInit: row['isInit'] as int,
+      categoryId: row['category_id'] as int);
+
+  final InsertionAdapter<EntriesModel> _entriesModelInsertionAdapter;
+
+  final UpdateAdapter<EntriesModel> _entriesModelUpdateAdapter;
+
+  final DeletionAdapter<EntriesModel> _entriesModelDeletionAdapter;
+
+  @override
+  Future<List<EntriesModel>> getAllEntries() async {
+    return _queryAdapter.queryList('SELECT * FROM entries',
+        mapper: _entriesMapper);
+  }
+
+  @override
+  Future<EntriesModel> getEntry(int id) async {
+    return _queryAdapter.query('SELECT * FROM entries WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _entriesMapper);
+  }
+
+  @override
+  Future<void> deleteAllEntries() async {
+    await _queryAdapter.queryNoReturn('DELETE FROM entries');
+  }
+
+  @override
+  Future<int> insertEntry(EntriesModel entry) {
+    return _entriesModelInsertionAdapter.insertAndReturnId(
+        entry, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> updateEntry(EntriesModel entry) {
+    return _entriesModelUpdateAdapter.updateAndReturnChangedRows(
+        entry, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<int> deleteEntry(EntriesModel entry) {
+    return _entriesModelDeletionAdapter.deleteAndReturnChangedRows(entry);
   }
 }

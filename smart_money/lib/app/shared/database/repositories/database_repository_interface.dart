@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:smart_money/app/shared/database/services/database.dart';
 import 'package:smart_money/app/shared/database/tables/categories/dao/categories_dao.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
+import 'package:smart_money/app/shared/database/tables/entries/dao/entries_dao.dart';
 
 class DatabaseRepository extends Disposable implements IDatabaseRepository {
   
@@ -20,9 +21,16 @@ class DatabaseRepository extends Disposable implements IDatabaseRepository {
     var database = await accessDatabase();
     return database.categoriesDao;
   }
+
+  @override
+  Future<EntriesDao> accessEntriesTable() async {
+    var database = await accessDatabase();
+    return database.entriesDao;
+  }
 }
 
 abstract class IDatabaseRepository {
   Future<FlutterDatabase> accessDatabase();
   Future<CategoriesDao> accessCategoriesTable();
+  Future<EntriesDao> accessEntriesTable();
 }

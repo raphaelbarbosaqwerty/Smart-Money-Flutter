@@ -12,35 +12,123 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
 
   @override
-  int get value {
+  String get value {
     _$valueAtom.reportRead();
     return super.value;
   }
 
   @override
-  set value(int value) {
+  set value(String value) {
     _$valueAtom.reportWrite(value, super.value, () {
       super.value = value;
     });
   }
 
-  final _$testFunctionAsyncAction =
-      AsyncAction('_LaunchControllerBase.testFunction');
+  final _$categoriesModelsAtom =
+      Atom(name: '_LaunchControllerBase.categoriesModels');
 
   @override
-  Future testFunction() {
-    return _$testFunctionAsyncAction.run(() => super.testFunction());
+  List<CategoriesModel> get categoriesModels {
+    _$categoriesModelsAtom.reportRead();
+    return super.categoriesModels;
+  }
+
+  @override
+  set categoriesModels(List<CategoriesModel> value) {
+    _$categoriesModelsAtom.reportWrite(value, super.categoriesModels, () {
+      super.categoriesModels = value;
+    });
+  }
+
+  final _$dropDownCategoriesAtom =
+      Atom(name: '_LaunchControllerBase.dropDownCategories');
+
+  @override
+  String get dropDownCategories {
+    _$dropDownCategoriesAtom.reportRead();
+    return super.dropDownCategories;
+  }
+
+  @override
+  set dropDownCategories(String value) {
+    _$dropDownCategoriesAtom.reportWrite(value, super.dropDownCategories, () {
+      super.dropDownCategories = value;
+    });
+  }
+
+  final _$debitAtom = Atom(name: '_LaunchControllerBase.debit');
+
+  @override
+  bool get debit {
+    _$debitAtom.reportRead();
+    return super.debit;
+  }
+
+  @override
+  set debit(bool value) {
+    _$debitAtom.reportWrite(value, super.debit, () {
+      super.debit = value;
+    });
+  }
+
+  final _$valueTypeAtom = Atom(name: '_LaunchControllerBase.valueType');
+
+  @override
+  String get valueType {
+    _$valueTypeAtom.reportRead();
+    return super.valueType;
+  }
+
+  @override
+  set valueType(String value) {
+    _$valueTypeAtom.reportWrite(value, super.valueType, () {
+      super.valueType = value;
+    });
+  }
+
+  final _$getDebitAsyncAction = AsyncAction('_LaunchControllerBase.getDebit');
+
+  @override
+  Future getDebit() {
+    return _$getDebitAsyncAction.run(() => super.getDebit());
+  }
+
+  final _$getCreditAsyncAction = AsyncAction('_LaunchControllerBase.getCredit');
+
+  @override
+  Future getCredit() {
+    return _$getCreditAsyncAction.run(() => super.getCredit());
+  }
+
+  final _$changeCategoriesAsyncAction =
+      AsyncAction('_LaunchControllerBase.changeCategories');
+
+  @override
+  Future changeCategories(String newDropDownCategories) {
+    return _$changeCategoriesAsyncAction
+        .run(() => super.changeCategories(newDropDownCategories));
   }
 
   final _$_LaunchControllerBaseActionController =
       ActionController(name: '_LaunchControllerBase');
 
   @override
-  void increment() {
+  void changeValueType() {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.increment');
+        name: '_LaunchControllerBase.changeValueType');
     try {
-      return super.increment();
+      return super.changeValueType();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeValue(String newValue) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeValue');
+    try {
+      return super.changeValue(newValue);
     } finally {
       _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -49,7 +137,11 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+value: ${value},
+categoriesModels: ${categoriesModels},
+dropDownCategories: ${dropDownCategories},
+debit: ${debit},
+valueType: ${valueType}
     ''';
   }
 }
