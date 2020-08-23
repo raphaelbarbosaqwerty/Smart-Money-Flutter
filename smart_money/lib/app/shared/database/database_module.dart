@@ -1,6 +1,5 @@
 import 'package:smart_money/app/shared/database/database_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:dio/dio.dart';
 import 'database_page.dart';
 
 class DatabaseModule extends ChildModule {

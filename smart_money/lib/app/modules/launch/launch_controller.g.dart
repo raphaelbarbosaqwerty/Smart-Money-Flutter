@@ -100,6 +100,14 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     return _$getCreditAsyncAction.run(() => super.getCredit());
   }
 
+  final _$setDebitCreditAsyncAction =
+      AsyncAction('_LaunchControllerBase.setDebitCredit');
+
+  @override
+  Future setDebitCredit() {
+    return _$setDebitCreditAsyncAction.run(() => super.setDebitCredit());
+  }
+
   final _$changeCategoriesAsyncAction =
       AsyncAction('_LaunchControllerBase.changeCategories');
 

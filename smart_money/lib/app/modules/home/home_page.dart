@@ -1,3 +1,4 @@
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:smart_money/app/components/card/card_widget.dart';
 import 'package:smart_money/app/components/container_gradient/container_gradient_widget.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
@@ -6,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smart_money/app/components/pie_chart/indicator.dart';
 import 'package:smart_money/app/components/pie_chart/pie_chart_widget.dart';
-import 'package:smart_money/app/shared/components/balance/balance_widget.dart';
 import 'home_controller.dart';
-
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -36,7 +35,30 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ContainerGradientWidget(
                       colors: GradientColors.violet,
                     ),
-                    BalanceWidget()
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'Saldo Atual',
+                                style: TextStyle(color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Center(
+                            child: Observer(
+                              builder: (_) {
+                                return Text('R\$ ${controller.value}', style: TextStyle(color: Colors.white, fontSize: 32));
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 
@@ -50,7 +72,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       leading: Text('Últimos 7 dias', style: TextStyle(color: Colors.grey)),
                       trailing: FlatButton(
                         child: Text('Ver mais', style: TextStyle(color: Colors.grey)),
-                        onPressed: () { print('Ver mais'); },
+                        onPressed: () { print(controller.value);},
                       ),
                     ),
                   ],

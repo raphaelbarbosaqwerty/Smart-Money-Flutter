@@ -2,7 +2,6 @@ import 'package:smart_money/app/shared/database/tables/categories/services/categ
 
 import 'launch_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:dio/dio.dart';
 import 'launch_page.dart';
 
 class LaunchModule extends ChildModule {

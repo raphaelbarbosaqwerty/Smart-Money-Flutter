@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:smart_money/app/shared/database/repositories/database_repository_interface.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
+import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
 class CategoriesService extends Disposable implements ICategoriesService {
  
@@ -59,6 +60,11 @@ class CategoriesService extends Disposable implements ICategoriesService {
     
       categoriesDao.insertCategoryList(categoriesModelList);
     }
+
+    EntriesModel entriesModel = EntriesModel(amount: 1000);
+    var entriesDao = await _databaseRepository.accessEntriesTable();
+    entriesDao.insertEntry(entriesModel);
+    print(await entriesDao.getAllEntries());
   }
 
 }

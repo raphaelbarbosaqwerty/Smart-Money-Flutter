@@ -12,13 +12,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
   final _$valueAtom = Atom(name: '_HomeControllerBase.value');
 
   @override
-  int get value {
+  double get value {
     _$valueAtom.reportRead();
     return super.value;
   }
 
   @override
-  set value(int value) {
+  set value(double value) {
     _$valueAtom.reportWrite(value, super.value, () {
       super.value = value;
     });
@@ -32,18 +32,11 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return _$testFunctionAsyncAction.run(() => super.testFunction());
   }
 
-  final _$_HomeControllerBaseActionController =
-      ActionController(name: '_HomeControllerBase');
+  final _$getBalanceAsyncAction = AsyncAction('_HomeControllerBase.getBalance');
 
   @override
-  void increment() {
-    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
-        name: '_HomeControllerBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future getBalance() {
+    return _$getBalanceAsyncAction.run(() => super.getBalance());
   }
 
   @override

@@ -1,4 +1,4 @@
-import 'package:smart_money/app/shared/components/balance/balance_controller.dart';
+import 'shared/components/money_balance/money_balance_controller.dart';
 import 'package:smart_money/app/shared/database/repositories/database_repository_interface.dart';
 
 import 'components/card/card_controller.dart';
@@ -18,10 +18,10 @@ class AppModule extends MainModule {
         Bind((i) => AppController()),
 
         // Aditional Controllers
-        Bind((i) => BalanceController()),
         Bind((i) => CardController()),
-        Bind((i) => ContainerGradientController()),
         Bind((i) => PieChartController()),
+        Bind((i) => MoneyBalanceController()),
+        Bind((i) => ContainerGradientController()),
 
         // DatabaseServices
         Bind<IDatabaseRepository>((i) => DatabaseRepository())

@@ -1,7 +1,6 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:smart_money/app/components/card/card_controller.dart';
 import 'package:smart_money/app/app_module.dart';
 
 void main() {

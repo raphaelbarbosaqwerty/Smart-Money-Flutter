@@ -9,6 +9,7 @@ import 'package:smart_money/app/components/container_gradient/container_gradient
 import 'package:smart_money/app/components/dropdown_button/dropdown_button_widget.dart';
 import 'package:smart_money/app/components/form_field/form_field_widget.dart';
 import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
+import 'package:smart_money/app/shared/components/money_balance/money_balance_widget.dart';
 import 'launch_controller.dart';
 
 class LaunchPage extends StatefulWidget {
@@ -21,13 +22,6 @@ class LaunchPage extends StatefulWidget {
 
 class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   //use 'controller' variable to access controller
-
-  List<String> listDatabases = [
-    'Lazer',
-    'Educação',
-    'Teste',
-    'Cartão de Crédito'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +59,9 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                         ),
                       ),
                       Positioned(
-                        left: 30,
+                        left: 15,
                         top: 5,
-                        child: Text('R\$ 0,00', style: TextStyle(color: Colors.white, fontSize: 24)),
+                        child: MoneyBalanceWidget(fontSize: 24, color: Colors.white),
                       ),
                     ],
                   ),
@@ -84,30 +78,27 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                 child: SizedBox(
                   height: 60,
-                  child: Observer(
-                    builder: (_) {
-                      return FlatButton(
-                        child: Text('${controller.valueType} R\$', style: TextStyle(color: Colors.white, fontSize: 24)),
-                        onPressed: () {
-                          controller.changeValueType();
-                        },
-                      );
+                  child: FlatButton(
+                    child: Observer( 
+                      name: 'FlatButtonValuType',
+                      builder: (_) {
+                        return Text('${controller.valueType} R\$', style: TextStyle(color: Colors.white, fontSize: 24));
+                      },
+                    ),
+                    onPressed: () {
+                      controller.changeValueType();
                     },
-                  )
+                  ),
                 ),
               ),
               Flexible(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 30, 0),
-                  child: Observer(
-                    builder: (_) {
-                      return FormFieldWidget(
-                        controller: MoneyMaskedTextController(leftSymbol: ''),
-                        labelText: 'Valor',
-                        errorText: null,
-                        onChanged: controller.changeValue
-                      );
-                    },
+                  child: FormFieldWidget(
+                    controller: MoneyMaskedTextController(leftSymbol: ''),
+                    labelText: 'Valor',
+                    errorText: null,
+                    onChanged: controller.changeValue
                   ),
                 ),
               ),
@@ -194,7 +185,8 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 OutlineButton(
                   child: Text("DEBITAR", style: TextStyle(fontSize: 18)),
                   onPressed: () async {
-                    print('Debit');
+                    controller.setDebitCredit();
+                    Modular.to.pop();
                   },
                   textColor: Colors.green,
                   borderSide: BorderSide(color: Colors.green),
@@ -205,10 +197,10 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 FlatButton(
                   child: Text("CANCELAR", style: TextStyle(fontSize: 18)),
                   onPressed: () {
-                    print('A');
+                    Modular.to.pop();
                   },
                   textColor: Colors.white,
-                )
+                ),
               ],
             ),
           ),
