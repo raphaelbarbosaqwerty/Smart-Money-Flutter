@@ -1,25 +1,25 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:smart_money/app/shared/database/repositories/database_repository_interface.dart';
+import 'package:smart_money/app/shared/database/services/database_service.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
 class CategoriesService extends Disposable implements ICategoriesService {
  
-  IDatabaseRepository _databaseRepository = Modular.get();
+  IDatabaseService _databaseService = Modular.get();
   
   @override
   void dispose() {
   }
 
   Future<void> initCategories() async {
-    var categoriesDao = await _databaseRepository.accessCategoriesTable();
+    var categoriesDao = await _databaseService.accessCategoriesTable();
     await initColumnsDatabase();
     var response = await categoriesDao.getAll();
     print(response);
   }
 
   Future<void> initColumnsDatabase() async {
-    var categoriesDao = await _databaseRepository.accessCategoriesTable();
+    var categoriesDao = await _databaseService.accessCategoriesTable();
     var exists = await categoriesDao.getAll();
 
     List<CategoriesModel> categoriesModelList = [];
@@ -62,7 +62,7 @@ class CategoriesService extends Disposable implements ICategoriesService {
     }
 
     EntriesModel entriesModel = EntriesModel(amount: 1000);
-    var entriesDao = await _databaseRepository.accessEntriesTable();
+    var entriesDao = await _databaseService.accessEntriesTable();
     entriesDao.insertEntry(entriesModel);
     print(await entriesDao.getAllEntries());
   }

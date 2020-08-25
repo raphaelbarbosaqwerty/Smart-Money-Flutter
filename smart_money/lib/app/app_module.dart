@@ -1,5 +1,6 @@
+import 'package:smart_money/app/shared/database/services/database_service.dart';
+
 import 'shared/components/money_balance/money_balance_controller.dart';
-import 'package:smart_money/app/shared/database/repositories/database_repository_interface.dart';
 
 import 'components/card/card_controller.dart';
 import 'components/pie_chart/pie_chart_controller.dart';
@@ -24,7 +25,7 @@ class AppModule extends MainModule {
         Bind((i) => ContainerGradientController()),
 
         // DatabaseServices
-        Bind<IDatabaseRepository>((i) => DatabaseRepository())
+        Bind<IDatabaseService>((i) => DatabaseService())
       ];
 
   @override

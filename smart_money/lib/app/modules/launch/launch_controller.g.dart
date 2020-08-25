@@ -12,13 +12,13 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
 
   @override
-  String get value {
+  double get value {
     _$valueAtom.reportRead();
     return super.value;
   }
 
   @override
-  set value(String value) {
+  set value(double value) {
     _$valueAtom.reportWrite(value, super.value, () {
       super.value = value;
     });
@@ -100,14 +100,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     return _$getCreditAsyncAction.run(() => super.getCredit());
   }
 
-  final _$setDebitCreditAsyncAction =
-      AsyncAction('_LaunchControllerBase.setDebitCredit');
-
-  @override
-  Future setDebitCredit() {
-    return _$setDebitCreditAsyncAction.run(() => super.setDebitCredit());
-  }
-
   final _$changeCategoriesAsyncAction =
       AsyncAction('_LaunchControllerBase.changeCategories');
 
@@ -115,6 +107,14 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   Future changeCategories(String newDropDownCategories) {
     return _$changeCategoriesAsyncAction
         .run(() => super.changeCategories(newDropDownCategories));
+  }
+
+  final _$setDebitCreditAsyncAction =
+      AsyncAction('_LaunchControllerBase.setDebitCredit');
+
+  @override
+  Future setDebitCredit() {
+    return _$setDebitCreditAsyncAction.run(() => super.setDebitCredit());
   }
 
   final _$_LaunchControllerBaseActionController =
@@ -132,7 +132,7 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   }
 
   @override
-  dynamic changeValue(String newValue) {
+  dynamic changeValue(double newValue) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
         name: '_LaunchControllerBase.changeValue');
     try {

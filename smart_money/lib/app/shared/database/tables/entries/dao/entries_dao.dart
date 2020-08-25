@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
 @dao
@@ -17,6 +18,12 @@ abstract class EntriesDao {
 
   @Query('DELETE FROM entries')
   Future<void> deleteAllEntries();
+
+  @Query('SELECT * FROM categories WHERE id = :id')
+  Future<CategoriesModel> getCategoryId(int id);
+
+  @Query('SELECT * FROM categories WHERE id = :id')
+  Future<List<CategoriesModel>> getCategoryListId(int id);
 
   @insert
   Future<int> insertEntry(EntriesModel entry);

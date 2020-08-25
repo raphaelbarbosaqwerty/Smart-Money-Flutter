@@ -23,6 +23,8 @@ class LaunchPage extends StatefulWidget {
 class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   //use 'controller' variable to access controller
 
+  var moneyMask = MoneyMaskedTextController(leftSymbol: '');
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,10 +97,12 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 30, 0),
                   child: FormFieldWidget(
-                    controller: MoneyMaskedTextController(leftSymbol: ''),
+                    controller: moneyMask,
                     labelText: 'Valor',
                     errorText: null,
-                    onChanged: controller.changeValue
+                    onChanged: (money) {
+                      controller.changeValue(moneyMask.numberValue);
+                    }
                   ),
                 ),
               ),
@@ -122,7 +126,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                   child: DropdownButtonHideUnderline(
                       child: DropdownButtonWidget(
                       listDatabases: controller.categoriesModels,
-                      value: controller?.dropDownCategories,//controller?.dropDownCategories, //controller?.dropDownDatabase,
+                      value: controller?.dropDownCategories,
                       onChanged: (String newDatabase) {
                         controller.changeCategories(newDatabase); 
                       },

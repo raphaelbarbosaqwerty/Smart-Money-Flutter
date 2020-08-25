@@ -237,6 +237,15 @@ class _$EntriesDao extends EntriesDao {
       isInit: row['isInit'] as int,
       categoryId: row['category_id'] as int);
 
+  static final _categoriesMapper = (Map<String, dynamic> row) =>
+      CategoriesModel(
+          id: row['id'] as int,
+          name: row['name'] as String,
+          color: row['color'] as String,
+          isDefault: row['isDefault'] as int,
+          isCredit: row['isCredit'] as int,
+          isDebit: row['isDebit'] as int);
+
   final InsertionAdapter<EntriesModel> _entriesModelInsertionAdapter;
 
   final UpdateAdapter<EntriesModel> _entriesModelUpdateAdapter;
@@ -258,6 +267,18 @@ class _$EntriesDao extends EntriesDao {
   @override
   Future<void> deleteAllEntries() async {
     await _queryAdapter.queryNoReturn('DELETE FROM entries');
+  }
+
+  @override
+  Future<CategoriesModel> getCategoryId(int id) async {
+    return _queryAdapter.query('SELECT * FROM categories WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _categoriesMapper);
+  }
+
+  @override
+  Future<List<CategoriesModel>> getCategoryListId(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM categories WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _categoriesMapper);
   }
 
   @override

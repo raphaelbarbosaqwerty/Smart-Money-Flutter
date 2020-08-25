@@ -1,6 +1,7 @@
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:smart_money/app/shared/database/repositories/database_repository_interface.dart';
+import 'package:smart_money/app/shared/database/services/database_service.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
 part 'money_balance_controller.g.dart';
@@ -11,28 +12,33 @@ class MoneyBalanceController = _MoneyBalanceControllerBase
 
 abstract class _MoneyBalanceControllerBase with Store {
 
-  IDatabaseRepository _databaseRepository = Modular.get();
+  DatabaseService _databaseService = Modular.get();
+
+  @observable
+  var moneyMask = MoneyMaskedTextController(leftSymbol: '');
 
   _MoneyBalanceControllerBase() {
     getEntries();
   }
 
   @observable
-  double value = 0;
+  double value = 0.0;
+
+  @observable
+  // String valueMask = "0.0";
 
   @observable
   List<EntriesModel> allEntries = [];
 
   @action 
   getEntries() async {
-    var entriesDao = await _databaseRepository.accessEntriesTable();
+    var entriesDao = await _databaseService.accessEntriesTable();
     allEntries = await entriesDao.getAllEntries();
     getBalance();
   }
 
   @action 
   getBalance() async {
-    print('Teste');
     for (var entry in allEntries) {
       value += entry.amount;
     }

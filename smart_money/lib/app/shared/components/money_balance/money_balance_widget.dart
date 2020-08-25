@@ -17,13 +17,39 @@ class MoneyBalanceWidget extends StatefulWidget {
 
 class _MoneyBalanceWidgetState extends ModularState<MoneyBalanceWidget, MoneyBalanceController> {
 
-  var moneyMask = MoneyMaskedTextController(leftSymbol: '');
+  // var moneyMask = MoneyMaskedTextController(leftSymbol: '');
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+    
+  //   moneyMask.updateValue(controller.value);
+  //   moneyMask.afterChange = (String masked, double raw) {
+  //     print("$masked | $raw");
+  //   };
+    
+  //   // Future.delayed(Duration(milliseconds: 1000)).then((value) {
+  //   //   _password.value = _password.value.copyWith(
+  //   //     text: controller.internalPassword == null ? "" : controller.internalPassword,
+  //   //     selection: TextSelection(
+  //   //       baseOffset: controller.internalPassword == null ? 0 : controller.internalPassword.length, 
+  //   //       extentOffset: controller.internalPassword == null ? 0 : controller.internalPassword.length
+  //   //     )
+  //   //   );
+
+  //   //   _username.value = _username.value.copyWith(
+  //   //     text: controller.internalUsername == null ? "" : controller.internalUsername 
+  //   //   );
+
+  //   // });
+  // } 
+  
   @override
   Widget build(BuildContext context) {
     return Observer(
+      name: 'MoneyBalance',
       builder: (_) {
-        return Text('R\$ ${controller.value}', style: TextStyle(color: widget.color, fontSize: widget.fontSize)); 
+        return Text('R\$ ${controller.value.toStringAsFixed(2)}', style: TextStyle(color: widget.color, fontSize: widget.fontSize)); 
       },
     );
   }

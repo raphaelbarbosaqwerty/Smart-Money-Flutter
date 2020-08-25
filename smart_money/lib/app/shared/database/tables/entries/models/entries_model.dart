@@ -1,4 +1,6 @@
 import 'package:floor/floor.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:smart_money/app/shared/database/services/database_service.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 
 @Entity(
@@ -12,6 +14,7 @@ import 'package:smart_money/app/shared/database/tables/categories/models/categor
   ]
 )
 class EntriesModel {
+  
   @PrimaryKey(autoGenerate: true)
   final int id;
 
@@ -75,6 +78,15 @@ class EntriesModel {
   int get getCategoryId => categoryId;
 
   set setCategoryId(int categoryId) => this.categoryId = categoryId;
+  
+  Future<String> getCategoryModel() async {
+    DatabaseService _databaseService = Modular.get();
+
+    var entriesDao = await _databaseService.accessEntriesTable();
+    var response = await entriesDao.getCategoryId(categoryId);
+    print(response.color);
+    // return response.color;
+  }
 
   @override
   String toString() {

@@ -52,7 +52,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           child: Center(
                             child: Observer(
                               builder: (_) {
-                                return Text('R\$ ${controller.value}', style: TextStyle(color: Colors.white, fontSize: 32));
+                                return Text('R\$ ${controller.value.toStringAsFixed(2)}', style: TextStyle(color: Colors.white, fontSize: 32));
                               },
                             ),
                           ),
@@ -82,61 +82,34 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     ListTile(
                       leading: Text('Últimos Lançamentos', style: TextStyle(color: Colors.white)),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Indicator(
-                            color: Color(0xff0293ee),
-                            text: 'Educação',
-                            isSquare: false,
-                            textColor: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Text('R\$ 1800,00', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Indicator(
-                            color: Color(0xff0293ee),
-                            text: 'Educação',
-                            isSquare: false,
-                            textColor: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Text('R\$ 1800,00', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
-                    ),
-                    Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 15),
-                          child: Indicator(
-                            color: Color(0xff0293ee),
-                            text: 'Educação',
-                            isSquare: false,
-                            textColor: Colors.white,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Text('R\$ 1800,00', style: TextStyle(color: Colors.white)),
-                        ),
-                      ],
+                    Observer(
+                      name: 'ListViewLastLaunchs',
+                      builder: (_) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          child: ListView.separated(
+                            itemCount: controller.entriesModel.length,
+                            itemBuilder: (_, index) {
+                              return ListTile(
+                                title: Indicator(
+                                  color: Hexcolor('${controller.getCategoriesColor}'),
+                                  text: controller.entriesModel[index].getDescription ?? "Null",
+                                  isSquare: false,
+                                  textColor: Colors.white,
+                                ),
+                                trailing: Text('R\$ ${controller.entriesModel[index].getAmount}', style: TextStyle(color: Colors.white)),
+                                onTap: () {
+                                  print(controller.entriesModel[index]);
+                                },
+                              );
+                            },
+                            separatorBuilder: (_, __) {
+                              return Divider();
+                            },
+                          )
+                        );
+                      },
                     ),
                     SizedBox(
                       height: 18,
