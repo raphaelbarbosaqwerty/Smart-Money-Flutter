@@ -1,7 +1,7 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:smart_money/app/modules/home/components/last_launchs/last_launchs_controller.dart';
 import 'package:smart_money/app/modules/home/home_controller.dart';
-import 'package:smart_money/app/shared/database/services/database_service.dart';
+import 'package:smart_money/app/shared/database/services/database_service_interface.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
@@ -11,10 +11,11 @@ class LaunchController = _LaunchControllerBase with _$LaunchController;
 
 abstract class _LaunchControllerBase with Store {
   
-  DatabaseService _databaseService = Modular.get();
-  HomeController _homeController = Modular.get();
+  IDatabaseService _databaseService;
+  HomeController _homeController;
+  LastLaunchsController _lastLaunchsController;
 
-  _LaunchControllerBase() {
+  _LaunchControllerBase(this._databaseService, this._homeController, this._lastLaunchsController) {
     getDebit();
   }
   
@@ -86,5 +87,6 @@ abstract class _LaunchControllerBase with Store {
     EntriesModel entriesModel = EntriesModel(amount: value, description: dropDownCategories, categoryId: categoryId);
     await entriesDao.insertEntry(entriesModel);
     _homeController.getBalance();
+    _lastLaunchsController.updateWidget();
   }
 }

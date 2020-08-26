@@ -1,10 +1,12 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:smart_money/app/shared/database/services/database_service.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
+import 'package:smart_money/app/shared/database/tables/entries/services/entries_service_interface.dart';
 
 class EntriesService implements IEntriesService {
-  DatabaseService _databaseService = Modular.get();
+  final DatabaseService _databaseService;
+
+  EntriesService(this._databaseService);
 
   @override
   Future<double> getAmount() async {
@@ -24,9 +26,4 @@ class EntriesService implements IEntriesService {
     return category;
   }
   
-}
-
-abstract class IEntriesService {
-  Future<double> getAmount();
-  Future<CategoriesModel> getCategoryId(int id);
 }

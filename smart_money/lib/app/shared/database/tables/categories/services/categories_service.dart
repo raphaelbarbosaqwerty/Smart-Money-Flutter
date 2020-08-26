@@ -1,12 +1,16 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:smart_money/app/shared/database/services/database_service.dart';
+import 'package:smart_money/app/shared/database/services/database_service_interface.dart';
 import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
+import 'package:smart_money/app/shared/database/tables/categories/services/categories_service_interface.dart';
 import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
 
 class CategoriesService extends Disposable implements ICategoriesService {
  
-  IDatabaseService _databaseService = Modular.get();
+  final IDatabaseService _databaseService;
   
+  CategoriesService(this._databaseService);
+
   @override
   void dispose() {
   }
@@ -66,9 +70,5 @@ class CategoriesService extends Disposable implements ICategoriesService {
     entriesDao.insertEntry(entriesModel);
     print(await entriesDao.getAllEntries());
   }
-
-}
-
-abstract class ICategoriesService {
 
 }

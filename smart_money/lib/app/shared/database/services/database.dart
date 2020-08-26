@@ -13,5 +13,4 @@ part 'database.g.dart';
 abstract class FlutterDatabase extends FloorDatabase {
   CategoriesDao get categoriesDao;
   EntriesDao get entriesDao;
-
 }

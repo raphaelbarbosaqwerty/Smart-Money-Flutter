@@ -5,11 +5,6 @@ import 'package:smart_money/app/shared/database/tables/entries/models/entries_mo
 @dao
 abstract class EntriesDao {
 
-  // @Query('SELECT SUM(amount) AS balance FROM entries')
-  // Future<double> getBalance();
-
-  // GetByCateogry
-
   @Query('SELECT * FROM entries')
   Future<List<EntriesModel>> getAllEntries();
 

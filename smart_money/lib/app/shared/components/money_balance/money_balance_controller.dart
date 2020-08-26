@@ -12,12 +12,12 @@ class MoneyBalanceController = _MoneyBalanceControllerBase
 
 abstract class _MoneyBalanceControllerBase with Store {
 
-  DatabaseService _databaseService = Modular.get();
+  final DatabaseService _databaseService;
 
   @observable
   var moneyMask = MoneyMaskedTextController(leftSymbol: '');
 
-  _MoneyBalanceControllerBase() {
+  _MoneyBalanceControllerBase(this._databaseService) {
     getEntries();
   }
 

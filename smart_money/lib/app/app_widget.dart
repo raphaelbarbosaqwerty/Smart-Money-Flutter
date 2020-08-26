@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:smart_money/app/app_module.dart';
 
 class AppWidget extends StatelessWidget {
   @override

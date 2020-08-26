@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pie_chart_controller.dart';
+part of 'chart_categories_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'pie_chart_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$PieChartController on _PieChartControllerBase, Store {
-  final _$valueAtom = Atom(name: '_PieChartControllerBase.value');
+mixin _$ChartCategoriesController on _ChartCategoriesControllerBase, Store {
+  final _$valueAtom = Atom(name: '_ChartCategoriesControllerBase.value');
 
   @override
   int get value {
@@ -24,17 +24,17 @@ mixin _$PieChartController on _PieChartControllerBase, Store {
     });
   }
 
-  final _$_PieChartControllerBaseActionController =
-      ActionController(name: '_PieChartControllerBase');
+  final _$_ChartCategoriesControllerBaseActionController =
+      ActionController(name: '_ChartCategoriesControllerBase');
 
   @override
   void increment() {
-    final _$actionInfo = _$_PieChartControllerBaseActionController.startAction(
-        name: '_PieChartControllerBase.increment');
+    final _$actionInfo = _$_ChartCategoriesControllerBaseActionController
+        .startAction(name: '_ChartCategoriesControllerBase.increment');
     try {
       return super.increment();
     } finally {
-      _$_PieChartControllerBaseActionController.endAction(_$actionInfo);
+      _$_ChartCategoriesControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
