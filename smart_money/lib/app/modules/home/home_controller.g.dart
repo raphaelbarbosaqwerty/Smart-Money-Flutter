@@ -28,13 +28,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
       Atom(name: '_HomeControllerBase.categoriesModel');
 
   @override
-  CategoriesModel get categoriesModel {
+  List<CategoriesModel> get categoriesModel {
     _$categoriesModelAtom.reportRead();
     return super.categoriesModel;
   }
 
   @override
-  set categoriesModel(CategoriesModel value) {
+  set categoriesModel(List<CategoriesModel> value) {
     _$categoriesModelAtom.reportWrite(value, super.categoriesModel, () {
       super.categoriesModel = value;
     });
@@ -74,7 +74,7 @@ mixin _$HomeController on _HomeControllerBase, Store {
       AsyncAction('_HomeControllerBase.getCategoriesColor');
 
   @override
-  Future<CategoriesModel> getCategoriesColor() {
+  Future getCategoriesColor() {
     return _$getCategoriesColorAsyncAction
         .run(() => super.getCategoriesColor());
   }
@@ -84,6 +84,20 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   Future getBalance() {
     return _$getBalanceAsyncAction.run(() => super.getBalance());
+  }
+
+  final _$_HomeControllerBaseActionController =
+      ActionController(name: '_HomeControllerBase');
+
+  @override
+  String getColor(int index) {
+    final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
+        name: '_HomeControllerBase.getColor');
+    try {
+      return super.getColor(index);
+    } finally {
+      _$_HomeControllerBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

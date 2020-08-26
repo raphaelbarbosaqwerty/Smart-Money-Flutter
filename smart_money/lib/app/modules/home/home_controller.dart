@@ -23,13 +23,12 @@ abstract class _HomeControllerBase extends Disposable with Store {
   List<EntriesModel> entriesModel = [];
 
   @observable
-  CategoriesModel categoriesModel;
+  List<CategoriesModel> categoriesModel = [];
 
   @override
   void dispose() {
     autorun((_) {
       print(getEntries());
-      print(getCategoriesColor());
     });
   }
 
@@ -47,17 +46,28 @@ abstract class _HomeControllerBase extends Disposable with Store {
   getEntries() async {
     var entriesDao = await _databaseService.accessEntriesTable();
     entriesModel = await entriesDao.getAllEntries();
-    var teste = await entriesModel[1].getCategoryModel();
-    print(teste);
+    await getCategoriesColor();
+  }
+
+
+
+  @action
+  getCategoriesColor() async {
+    var categoriesDao = await _databaseService.accessCategoriesTable();
+    categoriesModel = await categoriesDao.getAll();
   }
 
   @action
-  Future<CategoriesModel> getCategoriesColor() async {
-    var category;
-    var entriesDao = await _databaseService.accessEntriesTable();
-    for(var i in entriesModel) {
-      return category = await entriesDao.getCategoryId(i.getCategoryId);
+  String getColor(int index) {
+    print(entriesModel[index].categoryId);
+    
+    for(var category in categoriesModel) {
+      if(entriesModel[index].categoryId == category.id) {
+        return category.color;
+      }
     }
+
+    return "";
   }
 
   @action

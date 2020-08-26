@@ -36,7 +36,6 @@ abstract class _LaunchControllerBase with Store {
   @action
   void changeValueType() {
     debit = !debit;
-    print(debit);
     debit ? valueType = "-" : valueType = "+";
     debit ? getDebit() : getCredit();
   }
@@ -63,20 +62,28 @@ abstract class _LaunchControllerBase with Store {
   @action 
   changeCategories(String newDropDownCategories) async {
     dropDownCategories = newDropDownCategories;
-    print(dropDownCategories);
   }
 
 
   @action
   setDebitCredit() async {
-    
+    var categoriesDao = await _databaseService.accessCategoriesTable();
+    var response = await categoriesDao.getAll();
+    var categoryId;
+
+    for(var category in response) {
+      if(category.name == dropDownCategories) {
+        categoryId = category.id;
+      }
+    }
+
     if(debit) {
       value *= -1;
     }
 
-    print(value);
     var entriesDao = await _databaseService.accessEntriesTable();
-    EntriesModel entriesModel = EntriesModel(amount: value, description: dropDownCategories, categoryId: 1);
+    
+    EntriesModel entriesModel = EntriesModel(amount: value, description: dropDownCategories, categoryId: categoryId);
     await entriesDao.insertEntry(entriesModel);
     _homeController.getBalance();
   }

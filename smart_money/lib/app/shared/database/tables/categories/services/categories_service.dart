@@ -61,7 +61,7 @@ class CategoriesService extends Disposable implements ICategoriesService {
       categoriesDao.insertCategoryList(categoriesModelList);
     }
 
-    EntriesModel entriesModel = EntriesModel(amount: 1000);
+    EntriesModel entriesModel = EntriesModel(description: 'Salário', amount: 8000, categoryId: 15);
     var entriesDao = await _databaseService.accessEntriesTable();
     entriesDao.insertEntry(entriesModel);
     print(await entriesDao.getAllEntries());

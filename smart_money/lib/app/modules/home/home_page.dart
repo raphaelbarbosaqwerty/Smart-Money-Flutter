@@ -93,14 +93,19 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                             itemBuilder: (_, index) {
                               return ListTile(
                                 title: Indicator(
-                                  color: Hexcolor('${controller.getCategoriesColor}'),
+                                  color: Hexcolor('${controller.getColor(index)}'),
                                   text: controller.entriesModel[index].getDescription ?? "Null",
                                   isSquare: false,
                                   textColor: Colors.white,
                                 ),
+                                subtitle: Padding(
+                                  padding: EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                  child: Text('DateHere', style: TextStyle(color: Colors.grey)),
+                                ),
                                 trailing: Text('R\$ ${controller.entriesModel[index].getAmount}', style: TextStyle(color: Colors.white)),
                                 onTap: () {
-                                  print(controller.entriesModel[index]);
+                                  // print(controller.entriesModel[index]);
+                                  controller.getColor(index);
                                 },
                               );
                             },
@@ -137,72 +142,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           ],
         ),
       ], 
-    );
-  }
-}
-
-class Steps extends StatelessWidget {
-  final Axis direction;
-  final List steps;
-  final double size;
-  final Map path;
-  Steps({
-    Key key,
-    this.direction = Axis.vertical,
-    @required this.steps,
-    this.size = 21,
-    @required this.path,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        height: 300,
-        child: ListView.builder(
-        scrollDirection: direction,
-        itemCount: steps.length,
-        itemBuilder: (context, position) => Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              bottom: 0,
-              left: 16 + size * 2.14 / 2 - 5 / 2,
-              height: direction == Axis.horizontal ? path['width'] : null,
-              width: direction == Axis.horizontal ? null : path['width'],
-              child: Container(
-                color: path['color'],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Indicator(
-                    color: Color(0xff0293ee),
-                    text: 'Educação',
-                    isSquare: false,
-                    textColor: Colors.white,
-                  ),
-                  steps[position]['content'] != null
-                      ? direction == Axis.horizontal
-                          ? Padding(
-                              padding: EdgeInsets.only(top: size * 2.14),
-                              child: steps[position]['content'],
-                            )
-                          : Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: size * 2.14),
-                                child: steps[position]['content'],
-                              ),
-                            )
-                      : Container(),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

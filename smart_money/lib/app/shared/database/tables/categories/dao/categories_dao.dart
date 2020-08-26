@@ -12,6 +12,12 @@ abstract class CategoriesDao {
   @Query('SELECT * FROM categories WHERE isCredit = 1 ORDER BY name')
   Future<List<CategoriesModel>> getCredit();
 
+  @Query('SELECT * FROM categories WHERE id = :id')
+  Future<CategoriesModel> getCategoryId(int id);
+
+  @Query('SELECT * FROM categories WHERE id = :id')
+  Future<List<CategoriesModel>> getCategoryListId(int id);
+
   @insert
   Future<void> insertCategory(CategoriesModel categoryModel);
 

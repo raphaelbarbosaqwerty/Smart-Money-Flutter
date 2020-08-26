@@ -6,15 +6,16 @@ class FloatingCustomButtonWidget extends StatelessWidget {
   final child;
   final heroTag;
   final onPressed;
+  final backgroundColor;
 
-  FloatingCustomButtonWidget({this.child, this.heroTag, this.onPressed});
+  FloatingCustomButtonWidget({this.child, this.heroTag, this.onPressed, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       heroTag: heroTag,
       onPressed: onPressed,
-      backgroundColor: Hexcolor('#34495e'),
+      backgroundColor: backgroundColor,
       elevation: 0,
       child: child,
     );

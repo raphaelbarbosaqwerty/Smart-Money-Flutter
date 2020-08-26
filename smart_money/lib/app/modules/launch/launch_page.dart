@@ -142,37 +142,52 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FloatingCustomButtonWidget(
+                  heroTag: 'Delete',
+                  backgroundColor: Hexcolor('#c0392b'),
+                  onPressed: () {
+                    print('Button');
+                  },
+                  child: Icon(Icons.delete_forever),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                FloatingCustomButtonWidget(
                   heroTag: 'Calender',
+                  backgroundColor: Hexcolor('#34495e'),
                   onPressed: () {
                     print(controller.value);
                   },
                   child: Icon(Icons.calendar_today),
                 ),
                 SizedBox(
-                  width: 16,
+                  width: 8,
                 ),
                 FloatingCustomButtonWidget(
                   heroTag: 'Edit',
+                  backgroundColor: Hexcolor('#34495e'),
                   onPressed: () {
                     print('Button');
                   },
                   child: Icon(Icons.edit),
                 ),
                 SizedBox(
-                  width: 16,
+                  width: 8,
                 ),
                 FloatingCustomButtonWidget(
                   heroTag: 'Pin',
+                  backgroundColor: Hexcolor('#34495e'),
                   onPressed: () {
                     print('Button');
                   },
                   child: Icon(Icons.pin_drop),
                 ),
                 SizedBox(
-                  width: 16,
+                  width: 8,
                 ),
                 FloatingCustomButtonWidget(
                   heroTag: 'Camera',
+                  backgroundColor: Hexcolor('#34495e'),
                   onPressed: () {
                     print('Button');
                   },

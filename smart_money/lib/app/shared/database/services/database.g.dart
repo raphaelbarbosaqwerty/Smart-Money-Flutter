@@ -156,6 +156,18 @@ class _$CategoriesDao extends CategoriesDao {
   }
 
   @override
+  Future<CategoriesModel> getCategoryId(int id) async {
+    return _queryAdapter.query('SELECT * FROM categories WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _categoriesMapper);
+  }
+
+  @override
+  Future<List<CategoriesModel>> getCategoryListId(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM categories WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _categoriesMapper);
+  }
+
+  @override
   Future<void> insertCategory(CategoriesModel categoryModel) async {
     await _categoriesModelInsertionAdapter.insert(
         categoryModel, OnConflictStrategy.abort);
@@ -272,12 +284,6 @@ class _$EntriesDao extends EntriesDao {
   @override
   Future<CategoriesModel> getCategoryId(int id) async {
     return _queryAdapter.query('SELECT * FROM categories WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _categoriesMapper);
-  }
-
-  @override
-  Future<List<CategoriesModel>> getCategoryListId(int id) async {
-    return _queryAdapter.queryList('SELECT * FROM categories WHERE id = ?',
         arguments: <dynamic>[id], mapper: _categoriesMapper);
   }
 

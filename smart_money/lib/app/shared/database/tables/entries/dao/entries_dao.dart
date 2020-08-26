@@ -22,9 +22,6 @@ abstract class EntriesDao {
   @Query('SELECT * FROM categories WHERE id = :id')
   Future<CategoriesModel> getCategoryId(int id);
 
-  @Query('SELECT * FROM categories WHERE id = :id')
-  Future<List<CategoriesModel>> getCategoryListId(int id);
-
   @insert
   Future<int> insertEntry(EntriesModel entry);
 
