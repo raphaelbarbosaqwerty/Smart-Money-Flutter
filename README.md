@@ -8,3 +8,4 @@
 ## Actual State of the App
 ![SmartMoneyOne](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_1.png)
 ![SmartMoneyTwo](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_2.png)
+![SmartMoneyFour](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_4.png)
