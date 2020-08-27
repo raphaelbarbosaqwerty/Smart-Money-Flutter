@@ -1,4 +1,6 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:smart_money/app/modules/home/components/chart_categories/chart_categories_controller.dart';
 import 'package:smart_money/app/modules/home/components/last_launchs/last_launchs_controller.dart';
 import 'package:smart_money/app/modules/home/home_controller.dart';
 import 'package:smart_money/app/shared/database/services/database_service_interface.dart';
@@ -83,10 +85,13 @@ abstract class _LaunchControllerBase with Store {
     }
 
     var entriesDao = await _databaseService.accessEntriesTable();
-    
+    ChartCategoriesController _chartCategoriesController = Modular.get();
     EntriesModel entriesModel = EntriesModel(amount: value, description: dropDownCategories, categoryId: categoryId);
     await entriesDao.insertEntry(entriesModel);
+    
     _homeController.getBalance();
     _lastLaunchsController.updateWidget();
+    _chartCategoriesController.updateWidget();
+
   }
 }
