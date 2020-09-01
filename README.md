@@ -6,5 +6,5 @@
 * Floor.
 * Mobx.
 ## Actual State of the App
-![SmartMoneyOne](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_1.png)
-![SmartMoneyTwo](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_2.png)  
+![SmartMoneyOne](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_1_phone.png)
+![SmartMoneyTwo](https://raw.githubusercontent.com/raphaelbarbosaqwerty/Smart-Money-Flutter/master/images/smart_flutter_2_phone.png)  
