@@ -1,17 +1,16 @@
-import 'package:smart_money/app/shared/database/services/database_service.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
-import 'shared/components/money_balance/money_balance_controller.dart';
-
+import '../app/app_widget.dart';
+import '../app/modules/home/home_module.dart';
+import 'app_controller.dart';
 import 'components/card/card_controller.dart';
 import 'components/container_gradient/container_gradient_controller.dart';
-import 'app_controller.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter/material.dart';
-import 'package:smart_money/app/app_widget.dart';
-import 'package:smart_money/app/modules/home/home_module.dart';
-
 import 'modules/launch/launch_module.dart';
-import 'shared/database/services/database_service_interface.dart';
+import 'shared/components/money_balance/money_balance_controller.dart';
+import 'shared/databases/general_database.dart';
+import 'shared/databases/general_database_interface.dart';
+import 'shared/stores/balance_store.dart';
 
 class AppModule extends MainModule {
   @override
@@ -23,8 +22,12 @@ class AppModule extends MainModule {
         Bind((i) => MoneyBalanceController(i.get())),
         Bind((i) => ContainerGradientController()),
 
-        // DatabaseServices
-        Bind<IDatabaseService>((i) => DatabaseService())
+        // GeneralDatabase
+        Bind<IGeneralDatabase>((i) => GeneralDatabase()),
+
+        // Stores
+        Bind((i) => BalanceStore(i.get()))
+
       ];
 
   @override

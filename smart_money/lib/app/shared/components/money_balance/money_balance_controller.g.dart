@@ -24,72 +24,10 @@ mixin _$MoneyBalanceController on _MoneyBalanceControllerBase, Store {
     });
   }
 
-  final _$valueAtom = Atom(name: '_MoneyBalanceControllerBase.value');
-
-  @override
-  double get value {
-    _$valueAtom.reportRead();
-    return super.value;
-  }
-
-  @override
-  set value(double value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
-    });
-  }
-
-  final _$allEntriesAtom = Atom(name: '_MoneyBalanceControllerBase.allEntries');
-
-  @override
-  List<EntriesModel> get allEntries {
-    _$allEntriesAtom.reportRead();
-    return super.allEntries;
-  }
-
-  @override
-  set allEntries(List<EntriesModel> value) {
-    _$allEntriesAtom.reportWrite(value, super.allEntries, () {
-      super.allEntries = value;
-    });
-  }
-
-  final _$getEntriesAsyncAction =
-      AsyncAction('_MoneyBalanceControllerBase.getEntries');
-
-  @override
-  Future getEntries() {
-    return _$getEntriesAsyncAction.run(() => super.getEntries());
-  }
-
-  final _$getBalanceAsyncAction =
-      AsyncAction('_MoneyBalanceControllerBase.getBalance');
-
-  @override
-  Future getBalance() {
-    return _$getBalanceAsyncAction.run(() => super.getBalance());
-  }
-
-  final _$_MoneyBalanceControllerBaseActionController =
-      ActionController(name: '_MoneyBalanceControllerBase');
-
-  @override
-  void increment() {
-    final _$actionInfo = _$_MoneyBalanceControllerBaseActionController
-        .startAction(name: '_MoneyBalanceControllerBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_MoneyBalanceControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
   @override
   String toString() {
     return '''
-moneyMask: ${moneyMask},
-value: ${value},
-allEntries: ${allEntries}
+moneyMask: ${moneyMask}
     ''';
   }
 }

@@ -1,11 +1,7 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:smart_money/app/modules/home/components/chart_categories/chart_categories_controller.dart';
-import 'package:smart_money/app/modules/home/components/last_launchs/last_launchs_controller.dart';
-import 'package:smart_money/app/modules/home/home_controller.dart';
-import 'package:smart_money/app/shared/database/services/database_service_interface.dart';
-import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
-import 'package:smart_money/app/shared/database/tables/entries/models/entries_model.dart';
+import 'package:smart_money/app/shared/databases/general_database.dart';
+import 'package:smart_money/app/shared/databases/general_database_interface.dart';
+import 'package:smart_money/app/shared/stores/balance_store.dart';
 
 part 'launch_controller.g.dart';
 
@@ -13,19 +9,18 @@ class LaunchController = _LaunchControllerBase with _$LaunchController;
 
 abstract class _LaunchControllerBase with Store {
   
-  IDatabaseService _databaseService;
-  HomeController _homeController;
-  LastLaunchsController _lastLaunchsController;
+  IGeneralDatabase _generalDatabase;
+  BalanceStore balanceStore;
 
-  _LaunchControllerBase(this._databaseService, this._homeController, this._lastLaunchsController) {
+  _LaunchControllerBase(this._generalDatabase, this.balanceStore) {
     getDebit();
   }
   
   @observable
-  double value = 0.0;
+  double value;
 
   @observable
-  List<CategoriesModel> categoriesModels = [];
+  List<dynamic> categoriesModels = [];
 
   @observable
   String dropDownCategories;
@@ -50,16 +45,14 @@ abstract class _LaunchControllerBase with Store {
   getDebit() async {
     dropDownCategories = "Alimentação";
     categoriesModels = [];
-    var categoriesDao = await _databaseService.accessCategoriesTable();
-    categoriesModels = await categoriesDao.getDebit();
+    categoriesModels = await _generalDatabase.categorieDao.getDebit();
   }
 
   @action
   getCredit() async {
     dropDownCategories = "Empréstimos";
     categoriesModels = [];
-    var categoriesDao = await _databaseService.accessCategoriesTable();
-    categoriesModels = await categoriesDao.getCredit();
+    categoriesModels = await _generalDatabase.categorieDao.getCredit();
   }
 
   @action 
@@ -70,8 +63,7 @@ abstract class _LaunchControllerBase with Store {
 
   @action
   setDebitCredit() async {
-    var categoriesDao = await _databaseService.accessCategoriesTable();
-    var response = await categoriesDao.getAll();
+    var response = await _generalDatabase.categorieDao.getAllCategories();
     var categoryId;
 
     for(var category in response) {
@@ -84,14 +76,21 @@ abstract class _LaunchControllerBase with Store {
       value *= -1;
     }
 
-    var entriesDao = await _databaseService.accessEntriesTable();
-    ChartCategoriesController _chartCategoriesController = Modular.get();
-    EntriesModel entriesModel = EntriesModel(amount: value, description: dropDownCategories, categoryId: categoryId);
-    await entriesDao.insertEntry(entriesModel);
-    
-    _homeController.getBalance();
-    _lastLaunchsController.updateWidget();
-    _chartCategoriesController.updateWidget();
+    await _generalDatabase.entrieDao.addEntry(
+      Entrie(
+        id: null, 
+        amount: value, 
+        description: dropDownCategories, 
+        entryAt: DateTime.now(), 
+        latitude: 0, 
+        longitude: 0, 
+        address: 'null', 
+        image: 'null', 
+        isInit: 0, 
+        category_id: categoryId
+      )
+    ); 
 
+    balanceStore.getBalance();
   }
 }

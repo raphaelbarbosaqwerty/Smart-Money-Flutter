@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
-import 'package:smart_money/app/components/container_gradient/container_gradient_widget.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import '../../../../../app/components/container_gradient/container_gradient_widget.dart';
+import '../../../../../app/modules/home/home_controller.dart';
 
 class HeaderWidget extends StatelessWidget {
 
-  final balance;
+  final HomeController controller;
 
-  HeaderWidget({this.balance=0.0});
-
+  HeaderWidget({this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,12 @@ class HeaderWidget extends StatelessWidget {
               ),
             ),
             Container(
-              child: Center(
-                child: Text('R\$ ${balance.toStringAsFixed(2)}', style: TextStyle(color: Colors.white, fontSize: 32)),
+              child: Observer(
+                builder: (_) {
+                  return Center(
+                    child: Text('R\$ ${controller.balanceStore.value.toStringAsFixed(2)}', style: TextStyle(color: Colors.white, fontSize: 32)),
+                  );
+                },
               ),
             ),
           ],

@@ -1,8 +1,6 @@
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/modules/home/components/chart_categories/chart_categories_widget.dart';
 import 'package:smart_money/app/modules/home/components/header/header_widget.dart';
 import 'package:smart_money/app/modules/home/components/last_launchs/last_launchs_widget.dart';
@@ -28,13 +26,9 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[
-                Observer(
-                  builder: (_) {
-                    return HeaderWidget(balance: controller.value);
-                  },
-                ),
-                ChartCategoriesWidget(),
-                LastLaunchsWidget(),
+                HeaderWidget(controller: controller),
+                ChartCategoriesWidget(controller: controller),
+                LastLaunchsWidget(controller: controller),
               ],
             ),
           ),

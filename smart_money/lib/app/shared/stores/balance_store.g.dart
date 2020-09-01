@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'database_controller.dart';
+part of 'balance_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,34 +8,27 @@ part of 'database_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$DatabaseController on _DatabaseControllerBase, Store {
-  final _$valueAtom = Atom(name: '_DatabaseControllerBase.value');
+mixin _$BalanceStore on _BalanceStoreBase, Store {
+  final _$valueAtom = Atom(name: '_BalanceStoreBase.value');
 
   @override
-  int get value {
+  double get value {
     _$valueAtom.reportRead();
     return super.value;
   }
 
   @override
-  set value(int value) {
+  set value(double value) {
     _$valueAtom.reportWrite(value, super.value, () {
       super.value = value;
     });
   }
 
-  final _$_DatabaseControllerBaseActionController =
-      ActionController(name: '_DatabaseControllerBase');
+  final _$getBalanceAsyncAction = AsyncAction('_BalanceStoreBase.getBalance');
 
   @override
-  void increment() {
-    final _$actionInfo = _$_DatabaseControllerBaseActionController.startAction(
-        name: '_DatabaseControllerBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_DatabaseControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> getBalance() {
+    return _$getBalanceAsyncAction.run(() => super.getBalance());
   }
 
   @override

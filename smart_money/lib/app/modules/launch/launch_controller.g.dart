@@ -28,13 +28,13 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
       Atom(name: '_LaunchControllerBase.categoriesModels');
 
   @override
-  List<CategoriesModel> get categoriesModels {
+  List<dynamic> get categoriesModels {
     _$categoriesModelsAtom.reportRead();
     return super.categoriesModels;
   }
 
   @override
-  set categoriesModels(List<CategoriesModel> value) {
+  set categoriesModels(List<dynamic> value) {
     _$categoriesModelsAtom.reportWrite(value, super.categoriesModels, () {
       super.categoriesModels = value;
     });

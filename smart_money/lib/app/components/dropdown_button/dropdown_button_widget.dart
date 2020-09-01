@@ -1,11 +1,10 @@
 // import 'package:crm_one_flutter/app/modules/login/submodules/webservice/models/webservice_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:smart_money/app/shared/database/tables/categories/models/categories_model.dart';
 
 class DropdownButtonWidget extends StatelessWidget {
   
-  final List<CategoriesModel> listDatabases;
+  final List<dynamic> listDatabases;
   final onChanged;
   final value;
   final hint;

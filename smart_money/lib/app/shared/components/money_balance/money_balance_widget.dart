@@ -49,7 +49,7 @@ class _MoneyBalanceWidgetState extends ModularState<MoneyBalanceWidget, MoneyBal
     return Observer(
       name: 'MoneyBalance',
       builder: (_) {
-        return Text('R\$ ${controller.value.toStringAsFixed(2)}', style: TextStyle(color: widget.color, fontSize: widget.fontSize)); 
+        return Text('R\$ ${controller.balanceStore.value.toStringAsFixed(2)}', style: TextStyle(color: widget.color, fontSize: widget.fontSize)); 
       },
     );
   }
