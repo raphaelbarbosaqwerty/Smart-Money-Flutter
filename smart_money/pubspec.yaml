@@ -36,6 +36,7 @@ dependencies:
   path_provider: ^1.6.14
   path: ^1.7.0
   intl: ^0.16.1
+  asuka: ^1.0.4
   flutter:
     sdk: flutter
 

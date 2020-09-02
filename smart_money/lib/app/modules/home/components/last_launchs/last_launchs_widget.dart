@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_money/app/shared/databases/dao/entries_dao.dart';
@@ -56,7 +57,20 @@ class LastLaunchsWidget extends StatelessWidget {
                       child: Text('R\$ ${entries[index].entrie.amount}', style: TextStyle(color: Colors.white)),
                     ),
                     onTap: () {
-                      controller.getColor(index);
+                      Modular.to.pushNamed('/launch/', arguments: 
+                        Entrie(
+                          id: entries[index].entrie.id, 
+                          amount: entries[index].entrie.amount, 
+                          description: entries[index].entrie.description, 
+                          entryAt: entries[index].entrie.entryAt, 
+                          latitude: entries[index].entrie.latitude, 
+                          longitude: entries[index].entrie.latitude, 
+                          address: entries[index].entrie.address, 
+                          image: entries[index].entrie.image, 
+                          isInit: entries[index].entrie.isInit, 
+                          category_id: entries[index].entrie.category_id
+                        )
+                      );
                     },
                   ),
                   );
@@ -67,6 +81,9 @@ class LastLaunchsWidget extends StatelessWidget {
               );
             },
           )
+        ),
+        SizedBox(
+          height: 12,
         ),
       ],
     );

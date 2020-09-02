@@ -86,6 +86,22 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
+  final _$valueButtonTextAtom =
+      Atom(name: '_LaunchControllerBase.valueButtonText');
+
+  @override
+  String get valueButtonText {
+    _$valueButtonTextAtom.reportRead();
+    return super.valueButtonText;
+  }
+
+  @override
+  set valueButtonText(String value) {
+    _$valueButtonTextAtom.reportWrite(value, super.valueButtonText, () {
+      super.valueButtonText = value;
+    });
+  }
+
   final _$getDebitAsyncAction = AsyncAction('_LaunchControllerBase.getDebit');
 
   @override
@@ -117,15 +133,23 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     return _$setDebitCreditAsyncAction.run(() => super.setDebitCredit());
   }
 
+  final _$deleteEntryAsyncAction =
+      AsyncAction('_LaunchControllerBase.deleteEntry');
+
+  @override
+  Future<dynamic> deleteEntry(int id) {
+    return _$deleteEntryAsyncAction.run(() => super.deleteEntry(id));
+  }
+
   final _$_LaunchControllerBaseActionController =
       ActionController(name: '_LaunchControllerBase');
 
   @override
-  void changeValueType() {
+  dynamic editEntry(dynamic entryModel) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.changeValueType');
+        name: '_LaunchControllerBase.editEntry');
     try {
-      return super.changeValueType();
+      return super.editEntry(entryModel);
     } finally {
       _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -143,13 +167,25 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   }
 
   @override
+  void changeValueType() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeValueType');
+    try {
+      return super.changeValueType();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 value: ${value},
 categoriesModels: ${categoriesModels},
 dropDownCategories: ${dropDownCategories},
 debit: ${debit},
-valueType: ${valueType}
+valueType: ${valueType},
+valueButtonText: ${valueButtonText}
     ''';
   }
 }

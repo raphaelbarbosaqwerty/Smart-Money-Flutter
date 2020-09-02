@@ -9,12 +9,17 @@ import 'package:smart_money/app/components/container_gradient/container_gradient
 import 'package:smart_money/app/components/dropdown_button/dropdown_button_widget.dart';
 import 'package:smart_money/app/components/form_field/form_field_widget.dart';
 import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
+import 'package:smart_money/app/modules/launch/components/message/message_widget.dart';
 import 'package:smart_money/app/shared/components/money_balance/money_balance_widget.dart';
+import 'package:smart_money/app/shared/databases/general_database.dart';
+import 'package:asuka/asuka.dart' as asuka;
+
 import 'launch_controller.dart';
 
 class LaunchPage extends StatefulWidget {
+  final Entrie entryObject;
   final String title;
-  const LaunchPage({Key key, this.title = "Launch"}) : super(key: key);
+  const LaunchPage({Key key, this.title = "Launch", this.entryObject}) : super(key: key);
 
   @override
   _LaunchPageState createState() => _LaunchPageState();
@@ -25,6 +30,13 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
 
   var moneyMask = MoneyMaskedTextController(leftSymbol: '');
   
+  @override
+  void initState() {
+    if(widget.entryObject != null) {
+      controller.editEntry(widget.entryObject);
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,17 +153,21 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                FloatingCustomButtonWidget(
-                  heroTag: 'Delete',
-                  backgroundColor: Hexcolor('#c0392b'),
-                  onPressed: () {
-                    print('Button');
-                  },
-                  child: Icon(Icons.delete_forever),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
+                if(widget.entryObject != null)
+                  FloatingCustomButtonWidget(
+                    heroTag: 'Delete',
+                    backgroundColor: Hexcolor('#c0392b'),
+                    onPressed: () {
+                      asuka.showDialog(
+                        builder: (context) => MessageWidget(controller: controller, id: widget.entryObject.id)
+                      );
+                    },
+                    child: Icon(Icons.delete_forever),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                
                 FloatingCustomButtonWidget(
                   heroTag: 'Calender',
                   backgroundColor: Hexcolor('#34495e'),
@@ -202,7 +218,12 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 OutlineButton(
-                  child: Text("DEBITAR", style: TextStyle(fontSize: 18)),
+                  child: Observer(
+                    name: 'ValueButtonText',
+                    builder: (_) {
+                      return Text("${controller.valueButtonText}", style: TextStyle(fontSize: 18));
+                    },
+                  ),
                   onPressed: () async {
                     controller.setDebitCredit();
                     Modular.to.pop();

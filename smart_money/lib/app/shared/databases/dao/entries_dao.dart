@@ -62,11 +62,11 @@ class EntrieDao extends DatabaseAccessor<GeneralDatabase> with _$EntrieDaoMixin 
   }
 
   Future updateEntry(Entrie entity) async {
-    return into(entries).insert(entity);
+    return update(entries).replace(entity);
   }
 
-  Future removeEntry(Entrie entity) async {
-    return into(entries).insert(entity);
+  Future removeEntry(int id) async {
+    return (delete(entries)..where((tbl) => tbl.id.equals(id))).go();
   }
   
   EntrieDao(GeneralDatabase db) : super(db);

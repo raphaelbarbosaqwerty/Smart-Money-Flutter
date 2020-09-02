@@ -17,7 +17,7 @@ abstract class _LaunchControllerBase with Store {
   }
   
   @observable
-  double value;
+  double value = 0;
 
   @observable
   List<dynamic> categoriesModels = [];
@@ -31,6 +31,17 @@ abstract class _LaunchControllerBase with Store {
   @observable
   String valueType = '-';
 
+  @observable
+  String valueButtonText = "DEBITAR";
+
+  Entrie editEntryModel;
+
+  @action
+  editEntry(Entrie entryModel) => editEntryModel = entryModel;
+
+  @action
+  changeValue(double newValue) => value = newValue;
+  
   @action
   void changeValueType() {
     debit = !debit;
@@ -39,13 +50,11 @@ abstract class _LaunchControllerBase with Store {
   }
 
   @action
-  changeValue(double newValue) => value = newValue;
-
-  @action
   getDebit() async {
     dropDownCategories = "Alimentação";
     categoriesModels = [];
     categoriesModels = await _generalDatabase.categorieDao.getDebit();
+    valueButtonText = "DEBITAR";
   }
 
   @action
@@ -53,6 +62,7 @@ abstract class _LaunchControllerBase with Store {
     dropDownCategories = "Empréstimos";
     categoriesModels = [];
     categoriesModels = await _generalDatabase.categorieDao.getCredit();
+    valueButtonText = "CREDITAR";
   }
 
   @action 
@@ -60,12 +70,10 @@ abstract class _LaunchControllerBase with Store {
     dropDownCategories = newDropDownCategories;
   }
 
-
   @action
   setDebitCredit() async {
     var response = await _generalDatabase.categorieDao.getAllCategories();
     var categoryId;
-
     for(var category in response) {
       if(category.name == dropDownCategories) {
         categoryId = category.id;
@@ -76,21 +84,30 @@ abstract class _LaunchControllerBase with Store {
       value *= -1;
     }
 
-    await _generalDatabase.entrieDao.addEntry(
-      Entrie(
-        id: null, 
-        amount: value, 
-        description: dropDownCategories, 
-        entryAt: DateTime.now(), 
-        latitude: 0, 
-        longitude: 0, 
-        address: 'null', 
-        image: 'null', 
-        isInit: 0, 
-        category_id: categoryId
-      )
-    ); 
+    Entrie object = Entrie(
+      id: editEntryModel?.id, 
+      amount: value, 
+      description: dropDownCategories, 
+      entryAt: DateTime.now(), 
+      latitude: 0, 
+      longitude: 0, 
+      address: 'null', 
+      image: 'null', 
+      isInit: 0, 
+      category_id: categoryId
+    );
 
-    balanceStore.getBalance();
+    if(editEntryModel != null) {
+      await _generalDatabase.entrieDao.updateEntry(object);
+      balanceStore.getBalance();
+    } else {
+      await _generalDatabase.entrieDao.addEntry(object); 
+      balanceStore.getBalance();
+    }
+  }
+
+  @action
+  Future deleteEntry(int id) async {
+    _generalDatabase.entrieDao.removeEntry(id);
   }
 }
