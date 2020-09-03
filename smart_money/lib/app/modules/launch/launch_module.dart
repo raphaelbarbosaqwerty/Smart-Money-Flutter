@@ -8,7 +8,7 @@ class LaunchModule extends ChildModule {
   @override
   List<Bind> get binds => [
         Bind((i) => MessageController()),
-        Bind((i) => LaunchController(i.get(), i.get())),
+        Bind((i) => LaunchController(i.get(), i.get()), lazy: false),
       ];
 
   @override

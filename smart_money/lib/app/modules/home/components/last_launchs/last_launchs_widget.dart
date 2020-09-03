@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:smart_money/app/shared/databases/dao/entries_dao.dart';
@@ -15,6 +16,7 @@ class LastLaunchsWidget extends StatelessWidget {
   LastLaunchsWidget({this.controller});
 
   // TODO - StreamBuilder
+
   
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class LastLaunchsWidget extends StatelessWidget {
               if(!snapshot.hasData) return Container();
 
               List<EntryWithCategory> entries = snapshot.data;
+            
 
               return ListView.separated(
                 itemCount: entries.length,
@@ -64,7 +67,7 @@ class LastLaunchsWidget extends StatelessWidget {
                           description: entries[index].entrie.description, 
                           entryAt: entries[index].entrie.entryAt, 
                           latitude: entries[index].entrie.latitude, 
-                          longitude: entries[index].entrie.latitude, 
+                          longitude: entries[index].entrie.longitude, 
                           address: entries[index].entrie.address, 
                           image: entries[index].entrie.image, 
                           isInit: entries[index].entrie.isInit, 

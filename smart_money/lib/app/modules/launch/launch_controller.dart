@@ -4,6 +4,8 @@ import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/databases/general_database_interface.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
+import 'package:geocoder/geocoder.dart';
+
 
 part 'launch_controller.g.dart';
 
@@ -50,6 +52,9 @@ abstract class _LaunchControllerBase with Store {
     editEntryModel != null ?  moneyMask.updateValue(editEntryModel.amount): print(1);
     editEntryModel.amount.toString().contains('-') ?  print('Ué') : changeValueType();
     dropDownCategories = editEntryModel.description;
+    latitude = entryModel.latitude;
+    longitude = entryModel.longitude;
+    localizationActivate = latitude != null ? true : false;
   }
 
   @action
@@ -94,13 +99,18 @@ abstract class _LaunchControllerBase with Store {
 
   @action
   Future activateLocalization() async {
-    position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    localizationActivate = !localizationActivate;
-
-    latitude = localizationActivate ? position.latitude : 0.0;
-    longitude = localizationActivate ? position.longitude : 0.0;
-
     print(longitude);
+    try {
+      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      localizationActivate = !localizationActivate;
+
+      latitude = localizationActivate ? position.latitude : 0.0;
+      longitude = localizationActivate ? position.longitude : 0.0;
+
+    } catch(e) {
+      print(e);
+    }
+    
   }
 
   @action
@@ -118,11 +128,10 @@ abstract class _LaunchControllerBase with Store {
       value *= -1;
     }
 
-    print(dropDownCategories);
     Entrie object = Entrie(
       id: editEntryModel?.id, 
       amount: value, 
-      description: dropDownCategories, 
+      description: editEntryModel?.description == null ? dropDownCategories : editEntryModel.description, 
       entryAt: DateTime.now(), 
       latitude: latitude, 
       longitude: longitude, 
@@ -131,6 +140,8 @@ abstract class _LaunchControllerBase with Store {
       isInit: 0, 
       category_id: categoryId
     );
+
+    print(latitude);
 
     if(editEntryModel != null) {
       await _generalDatabase.entrieDao.updateEntry(object);

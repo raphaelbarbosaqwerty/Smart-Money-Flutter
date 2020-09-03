@@ -3,6 +3,7 @@ import 'package:flutter_gradient_colors/flutter_gradient_colors.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smart_money/app/components/card/card_widget.dart';
 import 'package:smart_money/app/components/container_gradient/container_gradient_widget.dart';
@@ -29,7 +30,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   //use 'controller' variable to access controller
 
   // var moneyMask = MoneyMaskedTextController(leftSymbol: '');
-  
+
   @override
   void initState() {
     if(widget.entryObject != null) {
@@ -195,7 +196,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                   builder: (_) {
                     return FloatingCustomButtonWidget(
                       heroTag: 'Pin',
-                      backgroundColor: widget.entryObject?.latitude != 0.0 || controller.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
+                      backgroundColor: controller.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),//controller.latitude != 0.0 || (controller.editEntryModel?.latitude ?? 0.0) != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
                       onPressed: controller.activateLocalization,
                       child: Icon(Icons.pin_drop),
                     );
