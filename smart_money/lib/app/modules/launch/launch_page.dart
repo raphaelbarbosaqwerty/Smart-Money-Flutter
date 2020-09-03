@@ -28,7 +28,7 @@ class LaunchPage extends StatefulWidget {
 class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   //use 'controller' variable to access controller
 
-  var moneyMask = MoneyMaskedTextController(leftSymbol: '');
+  // var moneyMask = MoneyMaskedTextController(leftSymbol: '');
   
   @override
   void initState() {
@@ -109,11 +109,11 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 0, 30, 0),
                   child: FormFieldWidget(
-                    controller: moneyMask,
+                    controller: controller.moneyMask,
                     labelText: 'Valor',
                     errorText: null,
                     onChanged: (money) {
-                      controller.changeValue(moneyMask.numberValue);
+                      controller.changeValue(controller.moneyMask.numberValue);
                     }
                   ),
                 ),
@@ -141,6 +141,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                       value: controller?.dropDownCategories,
                       onChanged: (String newDatabase) {
                         controller.changeCategories(newDatabase); 
+
                       },
                     ),
                   )
@@ -170,7 +171,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 
                 FloatingCustomButtonWidget(
                   heroTag: 'Calender',
-                  backgroundColor: Hexcolor('#34495e'),
+                  backgroundColor: widget.entryObject?.entryAt != null ? Colors.blueAccent : Hexcolor('#34495e'),
                   onPressed: () {
                     print(controller.value);
                   },
@@ -181,7 +182,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 ),
                 FloatingCustomButtonWidget(
                   heroTag: 'Edit',
-                  backgroundColor: Hexcolor('#34495e'),
+                  backgroundColor: widget.entryObject?.description != null ? Colors.blueAccent : Hexcolor('#34495e'),
                   onPressed: () {
                     print('Button');
                   },
@@ -190,20 +191,22 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
                 SizedBox(
                   width: 8,
                 ),
-                FloatingCustomButtonWidget(
-                  heroTag: 'Pin',
-                  backgroundColor: Hexcolor('#34495e'),
-                  onPressed: () {
-                    print('Button');
+                Observer(
+                  builder: (_) {
+                    return FloatingCustomButtonWidget(
+                      heroTag: 'Pin',
+                      backgroundColor: widget.entryObject?.latitude != 0.0 || controller.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
+                      onPressed: controller.activateLocalization,
+                      child: Icon(Icons.pin_drop),
+                    );
                   },
-                  child: Icon(Icons.pin_drop),
                 ),
                 SizedBox(
                   width: 8,
                 ),
                 FloatingCustomButtonWidget(
                   heroTag: 'Camera',
-                  backgroundColor: Hexcolor('#34495e'),
+                  backgroundColor: widget.entryObject?.image == '' ? Colors.blueAccent : Hexcolor('#34495e'),
                   onPressed: () {
                     print('Button');
                   },

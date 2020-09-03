@@ -1,3 +1,5 @@
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/databases/general_database_interface.dart';
@@ -26,7 +28,13 @@ abstract class _LaunchControllerBase with Store {
   String dropDownCategories;
 
   @observable
+  Position position;
+
+  @observable
   bool debit = true;
+
+  @observable
+  var moneyMask = MoneyMaskedTextController(leftSymbol: '');
 
   @observable
   String valueType = '-';
@@ -37,7 +45,12 @@ abstract class _LaunchControllerBase with Store {
   Entrie editEntryModel;
 
   @action
-  editEntry(Entrie entryModel) => editEntryModel = entryModel;
+  editEntry(Entrie entryModel) async { 
+    editEntryModel = entryModel;
+    editEntryModel != null ?  moneyMask.updateValue(editEntryModel.amount): print(1);
+    editEntryModel.amount.toString().contains('-') ?  print('Ué') : changeValueType();
+    dropDownCategories = editEntryModel.description;
+  }
 
   @action
   changeValue(double newValue) => value = newValue;
@@ -70,10 +83,31 @@ abstract class _LaunchControllerBase with Store {
     dropDownCategories = newDropDownCategories;
   }
 
+  @observable
+  double latitude = 0.0;
+
+  @observable
+  double longitude = 0.0;
+
+  @observable
+  bool localizationActivate = false;
+
+  @action
+  Future activateLocalization() async {
+    position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    localizationActivate = !localizationActivate;
+
+    latitude = localizationActivate ? position.latitude : 0.0;
+    longitude = localizationActivate ? position.longitude : 0.0;
+
+    print(longitude);
+  }
+
   @action
   setDebitCredit() async {
     var response = await _generalDatabase.categorieDao.getAllCategories();
     var categoryId;
+
     for(var category in response) {
       if(category.name == dropDownCategories) {
         categoryId = category.id;
@@ -84,13 +118,14 @@ abstract class _LaunchControllerBase with Store {
       value *= -1;
     }
 
+    print(dropDownCategories);
     Entrie object = Entrie(
       id: editEntryModel?.id, 
       amount: value, 
       description: dropDownCategories, 
       entryAt: DateTime.now(), 
-      latitude: 0, 
-      longitude: 0, 
+      latitude: latitude, 
+      longitude: longitude, 
       address: 'null', 
       image: 'null', 
       isInit: 0, 

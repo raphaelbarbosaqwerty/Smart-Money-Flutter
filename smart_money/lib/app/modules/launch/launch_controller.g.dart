@@ -56,6 +56,21 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
+  final _$positionAtom = Atom(name: '_LaunchControllerBase.position');
+
+  @override
+  Position get position {
+    _$positionAtom.reportRead();
+    return super.position;
+  }
+
+  @override
+  set position(Position value) {
+    _$positionAtom.reportWrite(value, super.position, () {
+      super.position = value;
+    });
+  }
+
   final _$debitAtom = Atom(name: '_LaunchControllerBase.debit');
 
   @override
@@ -68,6 +83,21 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   set debit(bool value) {
     _$debitAtom.reportWrite(value, super.debit, () {
       super.debit = value;
+    });
+  }
+
+  final _$moneyMaskAtom = Atom(name: '_LaunchControllerBase.moneyMask');
+
+  @override
+  MoneyMaskedTextController get moneyMask {
+    _$moneyMaskAtom.reportRead();
+    return super.moneyMask;
+  }
+
+  @override
+  set moneyMask(MoneyMaskedTextController value) {
+    _$moneyMaskAtom.reportWrite(value, super.moneyMask, () {
+      super.moneyMask = value;
     });
   }
 
@@ -102,6 +132,60 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
+  final _$latitudeAtom = Atom(name: '_LaunchControllerBase.latitude');
+
+  @override
+  double get latitude {
+    _$latitudeAtom.reportRead();
+    return super.latitude;
+  }
+
+  @override
+  set latitude(double value) {
+    _$latitudeAtom.reportWrite(value, super.latitude, () {
+      super.latitude = value;
+    });
+  }
+
+  final _$longitudeAtom = Atom(name: '_LaunchControllerBase.longitude');
+
+  @override
+  double get longitude {
+    _$longitudeAtom.reportRead();
+    return super.longitude;
+  }
+
+  @override
+  set longitude(double value) {
+    _$longitudeAtom.reportWrite(value, super.longitude, () {
+      super.longitude = value;
+    });
+  }
+
+  final _$localizationActivateAtom =
+      Atom(name: '_LaunchControllerBase.localizationActivate');
+
+  @override
+  bool get localizationActivate {
+    _$localizationActivateAtom.reportRead();
+    return super.localizationActivate;
+  }
+
+  @override
+  set localizationActivate(bool value) {
+    _$localizationActivateAtom.reportWrite(value, super.localizationActivate,
+        () {
+      super.localizationActivate = value;
+    });
+  }
+
+  final _$editEntryAsyncAction = AsyncAction('_LaunchControllerBase.editEntry');
+
+  @override
+  Future editEntry(dynamic entryModel) {
+    return _$editEntryAsyncAction.run(() => super.editEntry(entryModel));
+  }
+
   final _$getDebitAsyncAction = AsyncAction('_LaunchControllerBase.getDebit');
 
   @override
@@ -125,6 +209,15 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
         .run(() => super.changeCategories(newDropDownCategories));
   }
 
+  final _$activateLocalizationAsyncAction =
+      AsyncAction('_LaunchControllerBase.activateLocalization');
+
+  @override
+  Future<dynamic> activateLocalization() {
+    return _$activateLocalizationAsyncAction
+        .run(() => super.activateLocalization());
+  }
+
   final _$setDebitCreditAsyncAction =
       AsyncAction('_LaunchControllerBase.setDebitCredit');
 
@@ -143,17 +236,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
 
   final _$_LaunchControllerBaseActionController =
       ActionController(name: '_LaunchControllerBase');
-
-  @override
-  dynamic editEntry(dynamic entryModel) {
-    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.editEntry');
-    try {
-      return super.editEntry(entryModel);
-    } finally {
-      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   dynamic changeValue(double newValue) {
@@ -183,9 +265,14 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
 value: ${value},
 categoriesModels: ${categoriesModels},
 dropDownCategories: ${dropDownCategories},
+position: ${position},
 debit: ${debit},
+moneyMask: ${moneyMask},
 valueType: ${valueType},
-valueButtonText: ${valueButtonText}
+valueButtonText: ${valueButtonText},
+latitude: ${latitude},
+longitude: ${longitude},
+localizationActivate: ${localizationActivate}
     ''';
   }
 }
