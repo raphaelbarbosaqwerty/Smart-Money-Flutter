@@ -9,21 +9,6 @@ part of 'launch_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LaunchController on _LaunchControllerBase, Store {
-  final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
-
-  @override
-  double get value {
-    _$valueAtom.reportRead();
-    return super.value;
-  }
-
-  @override
-  set value(double value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
-    });
-  }
-
   final _$categoriesModelsAtom =
       Atom(name: '_LaunchControllerBase.categoriesModels');
 
@@ -40,34 +25,35 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$dropDownCategoriesAtom =
-      Atom(name: '_LaunchControllerBase.dropDownCategories');
+  final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
 
   @override
-  String get dropDownCategories {
-    _$dropDownCategoriesAtom.reportRead();
-    return super.dropDownCategories;
+  double get value {
+    _$valueAtom.reportRead();
+    return super.value;
   }
 
   @override
-  set dropDownCategories(String value) {
-    _$dropDownCategoriesAtom.reportWrite(value, super.dropDownCategories, () {
-      super.dropDownCategories = value;
+  set value(double value) {
+    _$valueAtom.reportWrite(value, super.value, () {
+      super.value = value;
     });
   }
 
-  final _$positionAtom = Atom(name: '_LaunchControllerBase.position');
+  final _$dropDownCategoriesIdAtom =
+      Atom(name: '_LaunchControllerBase.dropDownCategoriesId');
 
   @override
-  Position get position {
-    _$positionAtom.reportRead();
-    return super.position;
+  int get dropDownCategoriesId {
+    _$dropDownCategoriesIdAtom.reportRead();
+    return super.dropDownCategoriesId;
   }
 
   @override
-  set position(Position value) {
-    _$positionAtom.reportWrite(value, super.position, () {
-      super.position = value;
+  set dropDownCategoriesId(int value) {
+    _$dropDownCategoriesIdAtom.reportWrite(value, super.dropDownCategoriesId,
+        () {
+      super.dropDownCategoriesId = value;
     });
   }
 
@@ -132,33 +118,34 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$latitudeAtom = Atom(name: '_LaunchControllerBase.latitude');
+  final _$entryModelAtom = Atom(name: '_LaunchControllerBase.entryModel');
 
   @override
-  double get latitude {
-    _$latitudeAtom.reportRead();
-    return super.latitude;
+  dynamic get entryModel {
+    _$entryModelAtom.reportRead();
+    return super.entryModel;
   }
 
   @override
-  set latitude(double value) {
-    _$latitudeAtom.reportWrite(value, super.latitude, () {
-      super.latitude = value;
+  set entryModel(dynamic value) {
+    _$entryModelAtom.reportWrite(value, super.entryModel, () {
+      super.entryModel = value;
     });
   }
 
-  final _$longitudeAtom = Atom(name: '_LaunchControllerBase.longitude');
+  final _$descriptionChangedAtom =
+      Atom(name: '_LaunchControllerBase.descriptionChanged');
 
   @override
-  double get longitude {
-    _$longitudeAtom.reportRead();
-    return super.longitude;
+  String get descriptionChanged {
+    _$descriptionChangedAtom.reportRead();
+    return super.descriptionChanged;
   }
 
   @override
-  set longitude(double value) {
-    _$longitudeAtom.reportWrite(value, super.longitude, () {
-      super.longitude = value;
+  set descriptionChanged(String value) {
+    _$descriptionChangedAtom.reportWrite(value, super.descriptionChanged, () {
+      super.descriptionChanged = value;
     });
   }
 
@@ -179,32 +166,60 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
+  final _$changeEntryModelAsyncAction =
+      AsyncAction('_LaunchControllerBase.changeEntryModel');
+
+  @override
+  Future changeEntryModel(dynamic genericObject) {
+    return _$changeEntryModelAsyncAction
+        .run(() => super.changeEntryModel(genericObject));
+  }
+
   final _$editEntryAsyncAction = AsyncAction('_LaunchControllerBase.editEntry');
 
   @override
-  Future editEntry(dynamic entryModel) {
-    return _$editEntryAsyncAction.run(() => super.editEntry(entryModel));
+  Future editEntry() {
+    return _$editEntryAsyncAction.run(() => super.editEntry());
   }
 
-  final _$getDebitAsyncAction = AsyncAction('_LaunchControllerBase.getDebit');
+  final _$changeValueTypeAsyncAction =
+      AsyncAction('_LaunchControllerBase.changeValueType');
 
   @override
-  Future getDebit() {
-    return _$getDebitAsyncAction.run(() => super.getDebit());
+  Future changeValueType() {
+    return _$changeValueTypeAsyncAction.run(() => super.changeValueType());
   }
 
-  final _$getCreditAsyncAction = AsyncAction('_LaunchControllerBase.getCredit');
+  final _$populateLaunchAsyncAction =
+      AsyncAction('_LaunchControllerBase.populateLaunch');
 
   @override
-  Future getCredit() {
-    return _$getCreditAsyncAction.run(() => super.getCredit());
+  Future populateLaunch() {
+    return _$populateLaunchAsyncAction.run(() => super.populateLaunch());
+  }
+
+  final _$checkArrayCategoryAsyncAction =
+      AsyncAction('_LaunchControllerBase.checkArrayCategory');
+
+  @override
+  Future checkArrayCategory() {
+    return _$checkArrayCategoryAsyncAction
+        .run(() => super.checkArrayCategory());
+  }
+
+  final _$findCategoryIdAsyncAction =
+      AsyncAction('_LaunchControllerBase.findCategoryId');
+
+  @override
+  Future<dynamic> findCategoryId(int id) {
+    return _$findCategoryIdAsyncAction.run(() => super.findCategoryId(id));
   }
 
   final _$changeCategoriesAsyncAction =
       AsyncAction('_LaunchControllerBase.changeCategories');
 
   @override
-  Future changeCategories(String newDropDownCategories) {
+  Future changeCategories(dynamic newDropDownCategories) {
     return _$changeCategoriesAsyncAction
         .run(() => super.changeCategories(newDropDownCategories));
   }
@@ -226,14 +241,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     return _$setDebitCreditAsyncAction.run(() => super.setDebitCredit());
   }
 
-  final _$deleteEntryAsyncAction =
-      AsyncAction('_LaunchControllerBase.deleteEntry');
-
-  @override
-  Future<dynamic> deleteEntry(int id) {
-    return _$deleteEntryAsyncAction.run(() => super.deleteEntry(id));
-  }
-
   final _$_LaunchControllerBaseActionController =
       ActionController(name: '_LaunchControllerBase');
 
@@ -249,11 +256,11 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   }
 
   @override
-  void changeValueType() {
+  dynamic changeDescription(String value) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.changeValueType');
+        name: '_LaunchControllerBase.changeDescription');
     try {
-      return super.changeValueType();
+      return super.changeDescription(value);
     } finally {
       _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -262,16 +269,15 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   @override
   String toString() {
     return '''
-value: ${value},
 categoriesModels: ${categoriesModels},
-dropDownCategories: ${dropDownCategories},
-position: ${position},
+value: ${value},
+dropDownCategoriesId: ${dropDownCategoriesId},
 debit: ${debit},
 moneyMask: ${moneyMask},
 valueType: ${valueType},
 valueButtonText: ${valueButtonText},
-latitude: ${latitude},
-longitude: ${longitude},
+entryModel: ${entryModel},
+descriptionChanged: ${descriptionChanged},
 localizationActivate: ${localizationActivate}
     ''';
   }

@@ -31,7 +31,8 @@ class MessageWidget extends StatelessWidget {
           FlatButton(
             child: Text('Sim'),
             onPressed: () {
-              controller.deleteEntry(id);
+              // TODO - Refactoring
+              controller.launchService.deleteData(id);
               Navigator.of(context).pop();
               Modular.to.pop();
 

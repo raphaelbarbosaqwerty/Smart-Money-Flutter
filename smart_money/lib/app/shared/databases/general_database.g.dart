@@ -21,7 +21,7 @@ class Entrie extends DataClass implements Insertable<Entrie> {
   Entrie(
       {@required this.id,
       @required this.amount,
-      @required this.description,
+      this.description,
       @required this.entryAt,
       @required this.latitude,
       @required this.longitude,
@@ -258,7 +258,7 @@ class EntriesCompanion extends UpdateCompanion<Entrie> {
   EntriesCompanion.insert({
     this.id = const Value.absent(),
     @required double amount,
-    @required String description,
+    this.description = const Value.absent(),
     @required DateTime entryAt,
     @required double latitude,
     @required double longitude,
@@ -267,7 +267,6 @@ class EntriesCompanion extends UpdateCompanion<Entrie> {
     @required int isInit,
     @required int category_id,
   })  : amount = Value(amount),
-        description = Value(description),
         entryAt = Value(entryAt),
         latitude = Value(latitude),
         longitude = Value(longitude),
@@ -415,7 +414,7 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     return GeneratedTextColumn(
       'description',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -542,8 +541,6 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description'], _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
     }
     if (data.containsKey('entry_at')) {
       context.handle(_entryAtMeta,

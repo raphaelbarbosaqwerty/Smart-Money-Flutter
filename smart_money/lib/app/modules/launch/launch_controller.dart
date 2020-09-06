@@ -1,11 +1,11 @@
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
+import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
+import 'package:smart_money/app/modules/launch/stores/launch_store.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
-import 'package:smart_money/app/shared/databases/general_database_interface.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
-import 'package:geocoder/geocoder.dart';
 
+import 'services/database/launch_service_interface.dart';
 
 part 'launch_controller.g.dart';
 
@@ -13,24 +13,23 @@ class LaunchController = _LaunchControllerBase with _$LaunchController;
 
 abstract class _LaunchControllerBase with Store {
   
-  IGeneralDatabase _generalDatabase;
   BalanceStore balanceStore;
-
-  _LaunchControllerBase(this._generalDatabase, this.balanceStore) {
-    getDebit();
+  ILaunchService launchService;
+  LaunchInternalComponentsService launchInternalComponentsService;
+  LaunchStore launchStore;
+  
+  _LaunchControllerBase({this.launchStore, this.balanceStore, this.launchService, this.launchInternalComponentsService}) {
+    populateLaunch();
   }
   
   @observable
-  double value = 0;
+  List<dynamic> categoriesModels;
 
   @observable
-  List<dynamic> categoriesModels = [];
+  double value = 0.0;
 
   @observable
-  String dropDownCategories;
-
-  @observable
-  Position position;
+  int dropDownCategoriesId = 0;
 
   @observable
   bool debit = true;
@@ -44,116 +43,125 @@ abstract class _LaunchControllerBase with Store {
   @observable
   String valueButtonText = "DEBITAR";
 
-  Entrie editEntryModel;
-
-  @action
-  editEntry(Entrie entryModel) async { 
-    editEntryModel = entryModel;
-    editEntryModel != null ?  moneyMask.updateValue(editEntryModel.amount): print(1);
-    editEntryModel.amount.toString().contains('-') ?  print('Ué') : changeValueType();
-    dropDownCategories = editEntryModel.description;
-    latitude = entryModel.latitude;
-    longitude = entryModel.longitude;
-    localizationActivate = latitude != null ? true : false;
-  }
-
-  @action
-  changeValue(double newValue) => value = newValue;
-  
-  @action
-  void changeValueType() {
-    debit = !debit;
-    debit ? valueType = "-" : valueType = "+";
-    debit ? getDebit() : getCredit();
-  }
-
-  @action
-  getDebit() async {
-    dropDownCategories = "Alimentação";
-    categoriesModels = [];
-    categoriesModels = await _generalDatabase.categorieDao.getDebit();
-    valueButtonText = "DEBITAR";
-  }
-
-  @action
-  getCredit() async {
-    dropDownCategories = "Empréstimos";
-    categoriesModels = [];
-    categoriesModels = await _generalDatabase.categorieDao.getCredit();
-    valueButtonText = "CREDITAR";
-  }
-
-  @action 
-  changeCategories(String newDropDownCategories) async {
-    dropDownCategories = newDropDownCategories;
-  }
+  Categorie categoryDropDownObject;
 
   @observable
-  double latitude = 0.0;
+  dynamic entryModel = Entrie();
 
   @observable
-  double longitude = 0.0;
+  String descriptionChanged = '';
 
   @observable
   bool localizationActivate = false;
 
   @action
-  Future activateLocalization() async {
-    print(longitude);
-    try {
-      position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      localizationActivate = !localizationActivate;
+  changeEntryModel(Entrie genericObject) async { 
+    entryModel = genericObject;
 
-      latitude = localizationActivate ? position.latitude : 0.0;
-      longitude = localizationActivate ? position.longitude : 0.0;
-
-    } catch(e) {
-      print(e);
-    }
+    await editEntry();
+    await isLocalizationActivated();
     
+    descriptionChanged = entryModel.description ?? '';
+
+    await checkArrayCategory();
+  }
+
+  @action
+  editEntry() async {
+    await moneyMask.updateValue(entryModel.amount);
+    entryModel.amount.toString().contains('-') ?  false : changeValueType();
+  }
+
+  @action
+  changeValueType() async {
+    debit = !debit;
+    categoriesModels = [];
+    dropDownCategoriesId = 0;
+    debit ? valueType = "-" : valueType = "+";
+    await populateLaunch();
+  }
+
+  @action
+  populateLaunch() async {
+    categoriesModels = debit ? await launchService.getDebit() : await launchService.getCredit();
+    categoryDropDownObject = categoriesModels[0];
+    valueButtonText = debit ? "DEBITAR" : "CREDITAR";
+  }
+  
+  isLocalizationActivated() {
+    localizationActivate = launchStore.latitude != 0.0 ? true : false;
+    launchStore.latitude = entryModel.latitude;
+    launchStore.longitude = entryModel.longitude;
+  }
+
+  @action
+  checkArrayCategory() async {
+    if(entryModel != null) {
+      Categorie response = await findCategoryId(entryModel.category_id);
+      var newResponse = categoriesModels.indexOf(response);
+      dropDownCategoriesId = newResponse; 
+      categoryDropDownObject = response;
+      return newResponse;
+    }
+  }
+
+  @action
+  Future<dynamic> findCategoryId(int id) async {
+    Categorie categorie;
+
+    categoriesModels = [];
+    categoriesModels = await launchService.getListCategories();
+
+    categoriesModels.forEach((element) {
+      if(element.id == id) {
+        categorie = element;
+      }
+    });   
+
+    return categorie;
+  }
+
+  @action
+  changeValue(double newValue) => value = newValue;
+
+  @action 
+  changeCategories(Categorie newDropDownCategories) async {
+    dropDownCategoriesId = await categoriesModels.indexOf(newDropDownCategories);
+    categoryDropDownObject = newDropDownCategories;
+  }
+
+  @action
+  changeDescription(String value) => descriptionChanged = value;
+
+  @action
+  Future activateLocalization() async {
+    localizationActivate = !localizationActivate;
+
+    launchStore.latitude = localizationActivate ? await launchInternalComponentsService.getLatitude() : 0.0;
+    launchStore.longitude = localizationActivate ? await launchInternalComponentsService.getLongitude() : 0.0;
   }
 
   @action
   setDebitCredit() async {
-    var response = await _generalDatabase.categorieDao.getAllCategories();
-    var categoryId;
-
-    for(var category in response) {
-      if(category.name == dropDownCategories) {
-        categoryId = category.id;
-      }
-    }
-
     if(debit) {
       value *= -1;
     }
 
     Entrie object = Entrie(
-      id: editEntryModel?.id, 
-      amount: value, 
-      description: editEntryModel?.description == null ? dropDownCategories : editEntryModel.description, 
+      id: entryModel?.id, 
+      amount: value == 0.0 && entryModel.amount != null ? entryModel.amount : value, 
+      description: entryModel.description == null || descriptionChanged != null ? descriptionChanged : entryModel.description, 
       entryAt: DateTime.now(), 
-      latitude: latitude, 
-      longitude: longitude, 
+      latitude: launchStore.latitude, 
+      longitude: launchStore.longitude, 
       address: 'null', 
       image: 'null', 
       isInit: 0, 
-      category_id: categoryId
+      category_id: categoryDropDownObject.id
     );
 
-    print(latitude);
+    await launchService.insertData(object);
 
-    if(editEntryModel != null) {
-      await _generalDatabase.entrieDao.updateEntry(object);
-      balanceStore.getBalance();
-    } else {
-      await _generalDatabase.entrieDao.addEntry(object); 
-      balanceStore.getBalance();
-    }
-  }
-
-  @action
-  Future deleteEntry(int id) async {
-    _generalDatabase.entrieDao.removeEntry(id);
+    balanceStore.getBalance();
   }
 }

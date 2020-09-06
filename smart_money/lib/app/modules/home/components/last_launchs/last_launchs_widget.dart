@@ -15,9 +15,6 @@ class LastLaunchsWidget extends StatelessWidget {
 
   LastLaunchsWidget({this.controller});
 
-  // TODO - StreamBuilder
-
-  
   @override
   Widget build(BuildContext context) {
     return CardWidget(
@@ -29,7 +26,7 @@ class LastLaunchsWidget extends StatelessWidget {
           width: double.maxFinite,
           height: 200,
           child: StreamBuilder<List<dynamic>>(
-            stream: controller.generalDatabase.entrieDao.listProdutoWithCategoria(),
+            stream: controller.getEntryCategory(),
             builder: (context, snapshot) {
               
               if(!snapshot.hasData) return Container();
@@ -47,7 +44,7 @@ class LastLaunchsWidget extends StatelessWidget {
                     child: ListTile(
                     title: Indicator(
                       color: Hexcolor('${entries[index].colorCategorie}'),
-                      text: entries[index].nameCategorie,
+                      text: '${entries[index].nameCategorie} - ${entries[index].entrie.description ?? ""}',
                       isSquare: false,
                       textColor: Colors.white,
                     ),

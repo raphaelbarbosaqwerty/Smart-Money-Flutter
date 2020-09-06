@@ -34,7 +34,7 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
             width: double.maxFinite,
             height: 200,
             child: StreamBuilder<List<dynamic>>(
-              stream: widget.controller.generalDatabase.entrieDao.listProdutoWithCategoria(),
+              stream: widget.controller.getEntryCategory(),
               builder: (context, snapshot) {
                 
                 if(!snapshot.hasData) return Container();
@@ -45,41 +45,37 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
                   children: <Widget>[
                     AspectRatio(
                       aspectRatio: 1.0,
-                      child: Observer(
-                        builder: (_) {
-                          return PieChart(
-                            PieChartData(
-                                pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
-                                  if (pieTouchResponse.touchInput is FlLongPressEnd ||
-                                      pieTouchResponse.touchInput is FlPanEnd) {
-                                    widget.controller.changeTouchedIndex(-1);
-                                  } else {
-                                    widget.controller.changeTouchedIndex(pieTouchResponse.touchedSectionIndex);
-                                  }
-                                }),
-                                borderData: FlBorderData(
-                                  show: false,
-                                ),
-                                sectionsSpace: 5,
-                                centerSpaceRadius: 35,
-                                sections: List.generate(entries.length, (index) {
-                                  final isTouched = index == widget.controller.touchedIndex;
-                                  final double fontSize = isTouched ? 15 : 6;
-                                  final double radius = isTouched ? 15 : 8;
-
-                                  return PieChartSectionData(
-                                    color: Hexcolor('${entries[index].colorCategorie}'),
-                                    value: 40,
-                                    title: isTouched ? '40%' : '',
-                                    radius: radius,
-                                    titleStyle: TextStyle(
-                                        fontSize: fontSize, color: const Color(0xffffffff)),
-                                  );
-                                }
-                              )
+                      child: PieChart(
+                        PieChartData(
+                            pieTouchData: PieTouchData(touchCallback: (pieTouchResponse) {
+                              if (pieTouchResponse.touchInput is FlLongPressEnd ||
+                                  pieTouchResponse.touchInput is FlPanEnd) {
+                                widget.controller.changeTouchedIndex(-1);
+                              } else {
+                                widget.controller.changeTouchedIndex(pieTouchResponse.touchedSectionIndex);
+                              }
+                            }),
+                            borderData: FlBorderData(
+                              show: false,
                             ),
-                          );
-                        },
+                            sectionsSpace: 5,
+                            centerSpaceRadius: 35,
+                            sections: List.generate(entries.length, (index) {
+                              final isTouched = index == widget.controller.touchedIndex;
+                              final double fontSize = isTouched ? 15 : 6;
+                              final double radius = isTouched ? 15 : 8;
+
+                              return PieChartSectionData(
+                                color: Hexcolor('${entries[index].colorCategorie}'),
+                                value: 40,
+                                title: isTouched ? '40%' : '',
+                                radius: radius,
+                                titleStyle: TextStyle(
+                                    fontSize: fontSize, color: const Color(0xffffffff)),
+                              );
+                            }
+                          )
+                        ),
                       ),
                     ),
                     Column(
@@ -89,32 +85,28 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
                         Container(
                           width: 230,
                           height: 100,
-                          child: Observer(
-                            builder: (_) {
-                              return ListView.builder(
-                                itemCount: entries.length,
-                                itemBuilder: (_, index) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Indicator(
-                                        color: Hexcolor('${entries[index].colorCategorie}'),
-                                        text: entries[index].entrie.description ?? "Null",
-                                        isSquare: false,
-                                        textColor: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 0),
-                                        child: Text('R\$ ${entries[index].entrie.amount}', style: TextStyle(color: Colors.white)),
-                                      ),
-                                    ],  
-                                  );
-                                },
+                          child: ListView.builder(
+                            itemCount: entries.length,
+                            itemBuilder: (_, index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Indicator(
+                                    color: Hexcolor('${entries[index].colorCategorie}'),
+                                    text: entries[index].nameCategorie,
+                                    isSquare: false,
+                                    textColor: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    height: 16,
+                                    width: 10,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text('R\$ ${entries[index].entrie.amount}', style: TextStyle(color: Colors.white)),
+                                  ),
+                                ],  
                               );
                             },
                           ),

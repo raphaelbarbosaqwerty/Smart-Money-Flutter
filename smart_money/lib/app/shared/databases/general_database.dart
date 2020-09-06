@@ -23,7 +23,7 @@ class Entries extends Table {
   IntColumn get id => integer().autoIncrement()();
   
   RealColumn get amount => real()();
-  TextColumn get description => text()();
+  TextColumn get description => text().nullable()();
   DateTimeColumn get entryAt => dateTime()();
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();

@@ -77,28 +77,17 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return ObservableStream<List<dynamic>>(_$stream);
   }
 
-  final _$updateWidgetAsyncAction =
-      AsyncAction('_HomeControllerBase.updateWidget');
-
   @override
-  Future updateWidget() {
-    return _$updateWidgetAsyncAction.run(() => super.updateWidget());
+  ObservableStream<List<dynamic>> getEntryCategory() {
+    final _$stream = super.getEntryCategory();
+    return ObservableStream<List<dynamic>>(_$stream);
   }
 
-  final _$getEntriesAsyncAction = AsyncAction('_HomeControllerBase.getEntries');
+  final _$getTablesAsyncAction = AsyncAction('_HomeControllerBase.getTables');
 
   @override
-  Future<List<dynamic>> getEntries() {
-    return _$getEntriesAsyncAction.run(() => super.getEntries());
-  }
-
-  final _$getCategoriesColorAsyncAction =
-      AsyncAction('_HomeControllerBase.getCategoriesColor');
-
-  @override
-  Future getCategoriesColor() {
-    return _$getCategoriesColorAsyncAction
-        .run(() => super.getCategoriesColor());
+  Future<dynamic> getTables() {
+    return _$getTablesAsyncAction.run(() => super.getTables());
   }
 
   final _$_HomeControllerBaseActionController =

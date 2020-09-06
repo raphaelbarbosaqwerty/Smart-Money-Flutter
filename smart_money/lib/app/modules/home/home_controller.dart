@@ -1,8 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobx/mobx.dart';
-import 'package:smart_money/app/shared/databases/general_database_interface.dart';
+import 'package:smart_money/app/modules/home/services/home_service_interface.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
-
 
 part 'home_controller.g.dart';
 
@@ -11,10 +10,12 @@ class HomeController = _HomeControllerBase with _$HomeController;
 abstract class _HomeControllerBase with Store {
   // ReactionDisposer  dispose;
 
-  final IGeneralDatabase generalDatabase;
   final BalanceStore balanceStore;
+  final IHomeService homeService;
 
-  _HomeControllerBase(this.generalDatabase, this.balanceStore);
+  _HomeControllerBase({this.balanceStore, this.homeService}) {
+    balanceStore.getBalance();
+  }
 
   @observable
   List<dynamic> entriesModel = [];
@@ -23,21 +24,9 @@ abstract class _HomeControllerBase with Store {
   List<dynamic> categoriesModel = [];
   
   @action
-  updateWidget() async {
-    await getEntries();
-    await getCategoriesColor();
-  }
-
-  @action
-  Future<List<dynamic>> getEntries() async {
-    entriesModel = await generalDatabase.entrieDao.getAllEntries();
-    await getCategoriesColor();
-    return entriesModel;
-  }
-
-  @action
-  getCategoriesColor() async {
-    categoriesModel = await generalDatabase.categorieDao.getAllCategories();
+  Future getTables() async {
+    entriesModel = await homeService.getCategories();
+    categoriesModel = await homeService.getEntries();
   }
 
   @action
@@ -72,61 +61,11 @@ abstract class _HomeControllerBase with Store {
 
   @observable
   ObservableStream<List<dynamic>> getAll() {
-    return generalDatabase.entrieDao.listAll().asObservable();
+    return homeService.getAllEntriesAsStream().asObservable();
   }
 
-
-  // @action
-  // Future testing() async {
-    
-  //   await _generalDatabase.categorieDao.insertCategory(Categorie(
-  //     id: null, 
-  //     color: '#42f563', 
-  //     isCredit: 0, 
-  //     isDebit: 1, 
-  //     isDefault: 0, 
-  //     name: 'Categorie'
-  //   ));
-
-  //   await _generalDatabase.entrieDao.addEntry(Entrie(
-  //     id: null, 
-  //     latitude: 0.0, 
-  //     isInit: 0, 
-  //     description: "null", 
-  //     entryAt: "null", 
-  //     image: 'image', 
-  //     amount: 0.0, 
-  //     address: "Null", 
-  //     longitude: 0.0, 
-  //     category_id: 1
-  //   ));
-  // }
-
-  // @action
-  // Future newTesting() async {
-  //   var response =  await _generalDatabase.entrieDao.getAllEntries();
-  //   list.addAll(response);
-  // }
-
-  // @observable
-  // ObservableList<dynamic> list = [].asObservable();
-
-  // @action
-  // Future<List<EntriesModel>> getEntries() async {
-  //   var entriesDao = await _databaseService.accessEntriesTable();
-  //   entriesModel = await entriesDao.getAllEntries();
-  //   print(entriesModel.length);
-  //   await getCategoriesColor();
-  //   return entriesModel;
-  // }
-
-  // @observable
-  // ObservableStream<List<Entrie>> getAll() {
-  //   return _generalDatabase.returnEntrieDao().listAll().asObservable();
-  // }
-
-  // @action
-  // Stream<List<Entrie>> testingGetAll() {
-  //   return _generalDatabase.returnEntrieDao().listAll();
-  // }
+  @observable
+  ObservableStream<List<dynamic>> getEntryCategory() {
+    return homeService.getEntryWithCategory().asObservable();
+  }
 }
