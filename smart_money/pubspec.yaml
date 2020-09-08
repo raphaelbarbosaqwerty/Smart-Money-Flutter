@@ -38,8 +38,10 @@ dependencies:
   intl: ^0.16.1
   asuka: ^1.0.4
   table_calendar: ^2.2.3
-  geolocator: ^6.0.0+1
+  geolocator: ^6.0.0+4
   geocoder: ^0.2.1
+  image_picker: ^0.6.7+7
+  camera: ^0.5.8+5
   flutter:
     sdk: flutter
 

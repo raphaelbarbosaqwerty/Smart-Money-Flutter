@@ -166,6 +166,81 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
+  final _$imageAtom = Atom(name: '_LaunchControllerBase.image');
+
+  @override
+  File get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
+  final _$pickerAtom = Atom(name: '_LaunchControllerBase.picker');
+
+  @override
+  ImagePicker get picker {
+    _$pickerAtom.reportRead();
+    return super.picker;
+  }
+
+  @override
+  set picker(ImagePicker value) {
+    _$pickerAtom.reportWrite(value, super.picker, () {
+      super.picker = value;
+    });
+  }
+
+  final _$pickedFileAtom = Atom(name: '_LaunchControllerBase.pickedFile');
+
+  @override
+  PickedFile get pickedFile {
+    _$pickedFileAtom.reportRead();
+    return super.pickedFile;
+  }
+
+  @override
+  set pickedFile(PickedFile value) {
+    _$pickedFileAtom.reportWrite(value, super.pickedFile, () {
+      super.pickedFile = value;
+    });
+  }
+
+  final _$errorImageAtom = Atom(name: '_LaunchControllerBase.errorImage');
+
+  @override
+  dynamic get errorImage {
+    _$errorImageAtom.reportRead();
+    return super.errorImage;
+  }
+
+  @override
+  set errorImage(dynamic value) {
+    _$errorImageAtom.reportWrite(value, super.errorImage, () {
+      super.errorImage = value;
+    });
+  }
+
+  final _$getImageAsyncAction = AsyncAction('_LaunchControllerBase.getImage');
+
+  @override
+  Future<dynamic> getImage() {
+    return _$getImageAsyncAction.run(() => super.getImage());
+  }
+
+  final _$retrieveLostDataAsyncAction =
+      AsyncAction('_LaunchControllerBase.retrieveLostData');
+
+  @override
+  Future<void> retrieveLostData() {
+    return _$retrieveLostDataAsyncAction.run(() => super.retrieveLostData());
+  }
+
   final _$changeEntryModelAsyncAction =
       AsyncAction('_LaunchControllerBase.changeEntryModel');
 
@@ -245,6 +320,17 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
       ActionController(name: '_LaunchControllerBase');
 
   @override
+  File getImageSaved(String imagePath) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.getImageSaved');
+    try {
+      return super.getImageSaved(imagePath);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic changeValue(double newValue) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
         name: '_LaunchControllerBase.changeValue');
@@ -278,7 +364,11 @@ valueType: ${valueType},
 valueButtonText: ${valueButtonText},
 entryModel: ${entryModel},
 descriptionChanged: ${descriptionChanged},
-localizationActivate: ${localizationActivate}
+localizationActivate: ${localizationActivate},
+image: ${image},
+picker: ${picker},
+pickedFile: ${pickedFile},
+errorImage: ${errorImage}
     ''';
   }
 }

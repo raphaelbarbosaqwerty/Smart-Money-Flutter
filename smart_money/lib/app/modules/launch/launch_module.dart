@@ -19,15 +19,21 @@ class LaunchModule extends ChildModule {
         Bind((i) => EntryButtonsController()),
         Bind((i) => MessageController()),
         Bind(
-            (i) => LaunchController(launchStore: i.get(),launchInternalComponentsService: i.get(),
-                balanceStore: i.get(),launchService: i.get()),lazy: false),
-        
+            (i) => LaunchController(
+                launchStore: i.get(),
+                launchInternalComponentsService: i.get(),
+                balanceStore: i.get(),
+                launchService: i.get()),
+            lazy: false),
+
         // Stores
-        Bind((i) => LaunchStore(launchInternalComponentsService: i.get()),lazy: true),
-        
+        Bind((i) => LaunchStore(launchInternalComponentsService: i.get()),
+            lazy: true),
+
         // Services
         Bind<ILaunchService>((i) => LaunchService(generalDatabase: i.get())),
-        Bind<ILaunchInternalComponentsService>((i) => LaunchInternalComponentsService()),
+        Bind<ILaunchInternalComponentsService>(
+            (i) => LaunchInternalComponentsService()),
       ];
 
   @override

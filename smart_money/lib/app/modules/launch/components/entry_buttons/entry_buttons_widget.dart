@@ -1,14 +1,18 @@
 import 'dart:io';
 
+import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:smart_money/app/components/card/card_widget.dart';
 import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/message/message_widget.dart';
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
-import 'package:asuka/asuka.dart' as asuka;
+
+import 'entry_buttons_controller.dart';
 
 class EntryButtonsWidget extends StatefulWidget {
   final LaunchController controller;
@@ -21,7 +25,6 @@ class EntryButtonsWidget extends StatefulWidget {
 }
 
 class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
-  File val;
 
   @override
   Widget build(BuildContext context) {
@@ -115,30 +118,25 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
               SizedBox(
                 width: 8,
               ),
-              FloatingCustomButtonWidget(
-                heroTag: 'Camera',
-                backgroundColor: widget.entryObject?.image == '' ? Colors.blueAccent : Hexcolor('#34495e'),
-                onPressed: () async {
-                // val = await showDialog(
-                //     context: context,
-                //     builder: (context) => Camera(
-                //           mode: CameraMode.fullscreen,
-                //           //initialCamera: CameraSide.front,
-                //           //enableCameraChange: false,
-                //           //  orientationEnablePhoto: CameraOrientation.landscape,
-                //           onChangeCamera: (direction, _) {
-                //             print('--------------');
-                //             print('$direction');
-                //             print('--------------');
-                //           },
-
-                //           // imageMask: CameraFocus.square(
-                //           //   color: Colors.black.withOpacity(0.5),
-                //           // ),
-                //         ));
-                // setState(() {});
-              },
-              child: Icon(Icons.camera),
+              Observer(
+                builder: (_) {
+                  return FloatingCustomButtonWidget(
+                    heroTag: 'Camera',
+                    backgroundColor: widget.entryObject?.image != null || widget.controller.image != null ? Colors.blueAccent : Hexcolor('#34495e'),
+                    onPressed: () {
+                      if(widget.entryObject?.image != null || widget.controller.image != null) {
+                        print('Imagem existente');
+                        asuka.showDialog(
+                          builder: (context) => _alertImage()
+                        );
+                      } else {
+                        widget.controller.getImage();
+                        print('Imagem nula');
+                      }
+                    },
+                  child: Icon(Icons.add_a_photo),
+                  );
+                }
               ),
             ],
           ),
@@ -175,19 +173,45 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
             ],
           ),
         ),
-        Center(
-        child: Container(
-          height: 175,//MediaQuery.of(context).size.height * 0.7,
-          width: 100,//MediaQuery.of(context).size.width * 0.8,
-          child: val != null
-              ? Image.file(
-                  val,
-                  fit: BoxFit.contain,
-                )
-              : Text("Tire a foto")
-              )
-            )
       ],
+    );
+  }
+
+  _alertImage() {
+    return Center(
+      child: AlertDialog(
+      backgroundColor: Hexcolor('#34495e'),
+        content: AspectRatio(
+          aspectRatio: 1.0,
+          child: Observer(
+            builder: (_) {
+              return Center(
+              child: widget.controller.image.path == null && widget.entryObject?.image == null
+                  ? Text('No image selected.')
+                  : Image.file(widget.controller.getImageSaved(
+                    widget.entryObject?.image == null ? 
+                    widget.controller.image.path : 
+                    widget.entryObject.image)),
+              );
+            },
+          ),
+        ),
+        actions: [
+          FlatButton(
+            child: Text('Fechar'),
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+          ),
+          FlatButton(
+            child: Text('Nova foto'),
+            onPressed: () {
+              print('New Picture here');
+              widget.controller.getImage();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

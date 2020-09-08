@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:geocoder/model.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
 import 'package:smart_money/app/modules/launch/stores/launch_store.dart';
@@ -54,6 +58,44 @@ abstract class _LaunchControllerBase with Store {
   @observable
   bool localizationActivate = false;
 
+  @observable
+  File image;
+
+  @observable
+  ImagePicker picker = ImagePicker();
+
+  @observable
+  PickedFile pickedFile;
+
+  @observable
+  var errorImage;
+
+  @action
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    image = File(pickedFile.path);
+  }
+
+  @action
+  File getImageSaved(String imagePath) {
+    print(imagePath);
+    return File(imagePath);
+  }
+
+  @action
+  Future<void> retrieveLostData() async {
+    final LostData response = await picker.getLostData();
+    if (response.isEmpty) {
+      return;
+    }
+
+    if (response.file != null) {
+      pickedFile = response.file;
+    } else {
+      errorImage = response.exception;
+    }
+  }
+
   @action
   changeEntryModel(Entrie genericObject) async { 
     entryModel = genericObject;
@@ -69,6 +111,7 @@ abstract class _LaunchControllerBase with Store {
   @action
   editEntry() async {
     await moneyMask.updateValue(entryModel.amount);
+    image = entryModel.image != null ? File(entryModel.image) : null;
     entryModel.amount.toString().contains('-') ?  false : changeValueType();
   }
 
@@ -137,31 +180,45 @@ abstract class _LaunchControllerBase with Store {
   Future activateLocalization() async {
     localizationActivate = !localizationActivate;
 
-    launchStore.latitude = localizationActivate ? await launchInternalComponentsService.getLatitude() : 0.0;
-    launchStore.longitude = localizationActivate ? await launchInternalComponentsService.getLongitude() : 0.0;
+    try {
+      print(launchStore.latitude);
+      launchStore.latitude = localizationActivate ? await launchInternalComponentsService.getLatitude() : 0.0;
+      launchStore.longitude = localizationActivate ? await launchInternalComponentsService.getLongitude() : 0.0;
+      await launchStore.decodeCoordinates();
+    } catch (e) {
+      print(e);
+    }
+    
+
   }
 
   @action
   setDebitCredit() async {
-    if(debit) {
-      value *= -1;
+    try {
+      if(debit) {
+        value *= -1;
+      }
+
+      var addressSplitted = launchStore.addresses.first.addressLine.split(',');
+
+      Entrie object = Entrie(
+        id: entryModel?.id, 
+        amount: value == 0.0 && entryModel.amount != null ? entryModel.amount : value, 
+        description: entryModel.description == null || descriptionChanged != null ? descriptionChanged : entryModel.description, 
+        entryAt: DateTime.now(), 
+        latitude: launchStore.latitude, 
+        longitude: launchStore.longitude, 
+        address: entryModel.address == null ? '${addressSplitted[0]}' : entryModel.address, 
+        image: entryModel.image != null ? entryModel.image : image?.path, 
+        isInit: 0, 
+        category_id: categoryDropDownObject.id
+      );
+
+      await launchService.insertData(object);
+
+      balanceStore.getBalance();
+    } catch (e) {
+      print(e);
     }
-
-    Entrie object = Entrie(
-      id: entryModel?.id, 
-      amount: value == 0.0 && entryModel.amount != null ? entryModel.amount : value, 
-      description: entryModel.description == null || descriptionChanged != null ? descriptionChanged : entryModel.description, 
-      entryAt: DateTime.now(), 
-      latitude: launchStore.latitude, 
-      longitude: launchStore.longitude, 
-      address: 'null', 
-      image: 'null', 
-      isInit: 0, 
-      category_id: categoryDropDownObject.id
-    );
-
-    await launchService.insertData(object);
-
-    balanceStore.getBalance();
   }
 }

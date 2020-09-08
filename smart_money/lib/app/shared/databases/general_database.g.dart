@@ -25,9 +25,9 @@ class Entrie extends DataClass implements Insertable<Entrie> {
       @required this.entryAt,
       @required this.latitude,
       @required this.longitude,
-      @required this.address,
-      @required this.image,
-      @required this.isInit,
+      this.address,
+      this.image,
+      this.isInit,
       @required this.category_id});
   factory Entrie.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -259,20 +259,16 @@ class EntriesCompanion extends UpdateCompanion<Entrie> {
     this.id = const Value.absent(),
     @required double amount,
     this.description = const Value.absent(),
-    @required DateTime entryAt,
+    this.entryAt = const Value.absent(),
     @required double latitude,
     @required double longitude,
-    @required String address,
-    @required String image,
-    @required int isInit,
+    this.address = const Value.absent(),
+    this.image = const Value.absent(),
+    this.isInit = const Value.absent(),
     @required int category_id,
   })  : amount = Value(amount),
-        entryAt = Value(entryAt),
         latitude = Value(latitude),
         longitude = Value(longitude),
-        address = Value(address),
-        image = Value(image),
-        isInit = Value(isInit),
         category_id = Value(category_id);
   static Insertable<Entrie> custom({
     Expression<int> id,
@@ -423,11 +419,8 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
   @override
   GeneratedDateTimeColumn get entryAt => _entryAt ??= _constructEntryAt();
   GeneratedDateTimeColumn _constructEntryAt() {
-    return GeneratedDateTimeColumn(
-      'entry_at',
-      $tableName,
-      false,
-    );
+    return GeneratedDateTimeColumn('entry_at', $tableName, false,
+        defaultValue: Constant(DateTime.now()));
   }
 
   final VerificationMeta _latitudeMeta = const VerificationMeta('latitude');
@@ -462,7 +455,7 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     return GeneratedTextColumn(
       'address',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -474,7 +467,7 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     return GeneratedTextColumn(
       'image',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -486,7 +479,7 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     return GeneratedIntColumn(
       'is_init',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -545,8 +538,6 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     if (data.containsKey('entry_at')) {
       context.handle(_entryAtMeta,
           entryAt.isAcceptableOrUnknown(data['entry_at'], _entryAtMeta));
-    } else if (isInserting) {
-      context.missing(_entryAtMeta);
     }
     if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
@@ -563,20 +554,14 @@ class $EntriesTable extends Entries with TableInfo<$EntriesTable, Entrie> {
     if (data.containsKey('address')) {
       context.handle(_addressMeta,
           address.isAcceptableOrUnknown(data['address'], _addressMeta));
-    } else if (isInserting) {
-      context.missing(_addressMeta);
     }
     if (data.containsKey('image')) {
       context.handle(
           _imageMeta, image.isAcceptableOrUnknown(data['image'], _imageMeta));
-    } else if (isInserting) {
-      context.missing(_imageMeta);
     }
     if (data.containsKey('is_init')) {
       context.handle(_isInitMeta,
           isInit.isAcceptableOrUnknown(data['is_init'], _isInitMeta));
-    } else if (isInserting) {
-      context.missing(_isInitMeta);
     }
     if (data.containsKey('category_id')) {
       context.handle(

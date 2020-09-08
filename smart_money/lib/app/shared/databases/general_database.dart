@@ -24,12 +24,12 @@ class Entries extends Table {
   
   RealColumn get amount => real()();
   TextColumn get description => text().nullable()();
-  DateTimeColumn get entryAt => dateTime()();
+  DateTimeColumn get entryAt => dateTime().withDefault(Constant(DateTime.now()))();
   RealColumn get latitude => real()();
   RealColumn get longitude => real()();
-  TextColumn get address => text()();
-  TextColumn get image => text()();
-  IntColumn get isInit => integer()();
+  TextColumn get address => text().nullable()();
+  TextColumn get image => text().nullable()();
+  IntColumn get isInit => integer().nullable()();
   
   IntColumn get category_id => integer()();
 }
@@ -95,12 +95,12 @@ class GeneralDatabase extends _$GeneralDatabase implements IGeneralDatabase {
         Entrie(
           id: null, 
           amount: 8000.0, 
-          description: 'Salário', 
+          description: 'Primeiro salário', 
           entryAt: DateTime.now(), 
           latitude: 0, 
           longitude: 0, 
-          address: 'null', 
-          image: 'null', 
+          address: null, 
+          image: null, 
           isInit: 1, 
           category_id: 15
         )

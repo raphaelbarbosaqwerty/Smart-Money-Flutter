@@ -39,11 +39,35 @@ mixin _$LaunchStore on _LaunchStoreBase, Store {
     });
   }
 
+  final _$addressesAtom = Atom(name: '_LaunchStoreBase.addresses');
+
+  @override
+  List<Address> get addresses {
+    _$addressesAtom.reportRead();
+    return super.addresses;
+  }
+
+  @override
+  set addresses(List<Address> value) {
+    _$addressesAtom.reportWrite(value, super.addresses, () {
+      super.addresses = value;
+    });
+  }
+
+  final _$decodeCoordinatesAsyncAction =
+      AsyncAction('_LaunchStoreBase.decodeCoordinates');
+
+  @override
+  Future<dynamic> decodeCoordinates() {
+    return _$decodeCoordinatesAsyncAction.run(() => super.decodeCoordinates());
+  }
+
   @override
   String toString() {
     return '''
 latitude: ${latitude},
-longitude: ${longitude}
+longitude: ${longitude},
+addresses: ${addresses}
     ''';
   }
 }
