@@ -12,7 +12,6 @@ class DropdownButtonWidget extends StatelessWidget {
   
   const DropdownButtonWidget({Key key, this.listDatabases, this.onChanged, this.value, this.hint}) : super(key: key);
 
-  // TODO - When you have objects on DropDown use as Object.
   @override
   Widget build(BuildContext context) {
     return Center(

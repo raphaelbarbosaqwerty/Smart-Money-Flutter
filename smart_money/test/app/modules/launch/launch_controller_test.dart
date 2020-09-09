@@ -1,3 +1,4 @@
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -6,10 +7,10 @@ import 'package:smart_money/app/modules/launch/launch_module.dart';
 
 void main() {
   initModule(LaunchModule());
-  // LaunchController launch;
+  LaunchController launch;
   //
   setUp(() {
-    //     launch = LaunchModule.to.get<LaunchController>();
+    launch = Modular.get();
   });
 
   group('LaunchController Test', () {
@@ -22,5 +23,9 @@ void main() {
     //     launch.increment();
     //     expect(launch.value, equals(1));
     //   });
+  });
+
+  test('testing null', () {
+    print(1);
   });
 }

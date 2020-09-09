@@ -28,7 +28,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   @override
   void initState() {
     if(widget.entryObject != null) {
-      controller.changeEntryModel(widget.entryObject);
+      controller.changeEntry(widget.entryObject);
     }
     super.initState();
   }
@@ -110,7 +110,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
               },
             ),
           ),
-          EntryButtonsWidget(controller: controller, entryObject: controller.entryModel),
+          EntryButtonsWidget(controller: controller, entryObject: controller.launchStore.newEntry),
         ],
       )
     );

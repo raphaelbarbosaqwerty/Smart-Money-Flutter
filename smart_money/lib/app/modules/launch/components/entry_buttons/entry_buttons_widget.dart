@@ -1,18 +1,16 @@
-import 'dart:io';
-
 import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:smart_money/app/components/card/card_widget.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/calender_button/calender_button_widget.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/camera_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/message/message_widget.dart';
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 
-import 'entry_buttons_controller.dart';
+import 'components/edit_button/edit_button_widget.dart';
 
 class EntryButtonsWidget extends StatefulWidget {
   final LaunchController controller;
@@ -49,59 +47,11 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
                 SizedBox(
                   width: 8,
                 ),
-              
-              FloatingCustomButtonWidget(
-                heroTag: 'Calender',
-                backgroundColor: widget.entryObject?.entryAt != null ? Colors.blueAccent : Hexcolor('#34495e'),
-                onPressed: () {
-                  print('Configure Table Calendar');
-                },
-                child: Icon(Icons.calendar_today),
-              ),
+              CalenderButtonWidget(controller: widget.controller, entryObject: widget.entryObject,),
               SizedBox(
                 width: 8,
               ),
-              Observer(
-                builder: (_) {
-                  return FloatingCustomButtonWidget(
-                    heroTag: 'Edit',
-                    backgroundColor: widget.entryObject?.description != null || widget.controller.descriptionChanged != '' ? Colors.blueAccent : Hexcolor('#34495e'),
-                    onPressed: () {
-                      asuka.showDialog(
-                        builder: (context) => AlertDialog(
-                          title: Text('Insira uma descrição'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: <Widget>[
-                                TextFormField(
-                                  onChanged: widget.controller.changeDescription,
-                                  initialValue: widget.controller.descriptionChanged,
-                                )
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Cancelar'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            FlatButton(
-                              child: Text('Continuar'),
-                              onPressed: () {
-                                print(widget.controller.descriptionChanged);
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ), 
-                      );
-                    },
-                    child: Icon(Icons.edit),
-                  );
-                },
-              ),
+              EditButtonWidget(controller: widget.controller, entryObject: widget.entryObject),
               SizedBox(
                 width: 8,
               ),
@@ -111,33 +61,14 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
                     heroTag: 'Pin',
                     backgroundColor: widget.controller.launchStore.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
                     onPressed: widget.controller.activateLocalization,
-                    child: Icon(Icons.pin_drop),
+                    child: widget.controller.loading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white)) : Icon(Icons.pin_drop),
                   );
                 },
               ),
               SizedBox(
                 width: 8,
               ),
-              Observer(
-                builder: (_) {
-                  return FloatingCustomButtonWidget(
-                    heroTag: 'Camera',
-                    backgroundColor: widget.entryObject?.image != null || widget.controller.image != null ? Colors.blueAccent : Hexcolor('#34495e'),
-                    onPressed: () {
-                      if(widget.entryObject?.image != null || widget.controller.image != null) {
-                        print('Imagem existente');
-                        asuka.showDialog(
-                          builder: (context) => _alertImage()
-                        );
-                      } else {
-                        widget.controller.getImage();
-                        print('Imagem nula');
-                      }
-                    },
-                  child: Icon(Icons.add_a_photo),
-                  );
-                }
-              ),
+              CameraButtonWidget(entryObject: widget.entryObject),
             ],
           ),
         ),
@@ -174,44 +105,6 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
           ),
         ),
       ],
-    );
-  }
-
-  _alertImage() {
-    return Center(
-      child: AlertDialog(
-      backgroundColor: Hexcolor('#34495e'),
-        content: AspectRatio(
-          aspectRatio: 1.0,
-          child: Observer(
-            builder: (_) {
-              return Center(
-              child: widget.controller.image.path == null && widget.entryObject?.image == null
-                  ? Text('No image selected.')
-                  : Image.file(widget.controller.getImageSaved(
-                    widget.entryObject?.image == null ? 
-                    widget.controller.image.path : 
-                    widget.entryObject.image)),
-              );
-            },
-          ),
-        ),
-        actions: [
-          FlatButton(
-            child: Text('Fechar'),
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-          ),
-          FlatButton(
-            child: Text('Nova foto'),
-            onPressed: () {
-              print('New Picture here');
-              widget.controller.getImage();
-            },
-          ),
-        ],
-      ),
     );
   }
 }

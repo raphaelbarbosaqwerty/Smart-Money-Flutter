@@ -1,10 +1,8 @@
-import 'components/value_button/value_button_controller.dart';
-import 'components/entry_buttons/entry_buttons_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/launch_image_picker_store.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service_interface.dart';
 
-import 'components/message/message_controller.dart';
 import 'launch_controller.dart';
 import 'launch_page.dart';
 import 'services/database/launch_service.dart';
@@ -15,11 +13,9 @@ class LaunchModule extends ChildModule {
   @override
   List<Bind> get binds => [
         // Controllers
-        Bind((i) => ValueButtonController()),
-        Bind((i) => EntryButtonsController()),
-        Bind((i) => MessageController()),
         Bind(
             (i) => LaunchController(
+                launchImagePickerStore: i.get(),
                 launchStore: i.get(),
                 launchInternalComponentsService: i.get(),
                 balanceStore: i.get(),
@@ -27,8 +23,12 @@ class LaunchModule extends ChildModule {
             lazy: false),
 
         // Stores
-        Bind((i) => LaunchStore(launchInternalComponentsService: i.get()),
+        Bind(
+            (i) => LaunchStore(
+                launchImagePickerStore: i.get(),
+                launchInternalComponentsService: i.get()),
             lazy: true),
+        Bind((i) => LaunchImagePickerStore()),
 
         // Services
         Bind<ILaunchService>((i) => LaunchService(generalDatabase: i.get())),

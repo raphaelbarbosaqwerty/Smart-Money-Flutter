@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:geocoder/model.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/launch_image_picker_store.dart';
 import 'package:smart_money/app/modules/launch/stores/launch_store.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
@@ -17,20 +16,18 @@ class LaunchController = _LaunchControllerBase with _$LaunchController;
 
 abstract class _LaunchControllerBase with Store {
   
-  BalanceStore balanceStore;
-  ILaunchService launchService;
   LaunchInternalComponentsService launchInternalComponentsService;
+  LaunchImagePickerStore launchImagePickerStore;
+  ILaunchService launchService;
+  BalanceStore balanceStore;
   LaunchStore launchStore;
   
-  _LaunchControllerBase({this.launchStore, this.balanceStore, this.launchService, this.launchInternalComponentsService}) {
+  _LaunchControllerBase({this.launchImagePickerStore, this.launchStore, this.balanceStore, this.launchService, this.launchInternalComponentsService}) {
     populateLaunch();
   }
   
   @observable
   List<dynamic> categoriesModels;
-
-  @observable
-  double value = 0.0;
 
   @observable
   int dropDownCategoriesId = 0;
@@ -47,72 +44,39 @@ abstract class _LaunchControllerBase with Store {
   @observable
   String valueButtonText = "DEBITAR";
 
-  Categorie categoryDropDownObject;
-
-  @observable
-  dynamic entryModel = Entrie();
-
-  @observable
-  String descriptionChanged = '';
-
   @observable
   bool localizationActivate = false;
 
   @observable
-  File image;
-
-  @observable
-  ImagePicker picker = ImagePicker();
-
-  @observable
-  PickedFile pickedFile;
-
-  @observable
-  var errorImage;
+  bool loading = false;
 
   @action
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    image = File(pickedFile.path);
-  }
-
-  @action
-  File getImageSaved(String imagePath) {
-    print(imagePath);
-    return File(imagePath);
-  }
-
-  @action
-  Future<void> retrieveLostData() async {
-    final LostData response = await picker.getLostData();
-    if (response.isEmpty) {
-      return;
-    }
-
-    if (response.file != null) {
-      pickedFile = response.file;
-    } else {
-      errorImage = response.exception;
-    }
-  }
-
-  @action
-  changeEntryModel(Entrie genericObject) async { 
-    entryModel = genericObject;
-
-    await editEntry();
+  changeEntry(Entrie genericObject) async {
+    await launchStore.changeEntry(genericObject);
+    await changeMoneyMaskValue(launchStore.newEntry.amount);
+    await changeImagePreview();
+    await isNewEntryNegative();
     await isLocalizationActivated();
-    
-    descriptionChanged = entryModel.description ?? '';
-
     await checkArrayCategory();
   }
 
   @action
-  editEntry() async {
-    await moneyMask.updateValue(entryModel.amount);
-    image = entryModel.image != null ? File(entryModel.image) : null;
-    entryModel.amount.toString().contains('-') ?  false : changeValueType();
+  changeMoneyMaskValue(double value) {
+    moneyMask.updateValue(value);
+  }
+
+  @action
+  changeImagePreview() {
+    if(launchStore.newEntry.image != null) {
+      launchImagePickerStore.image = File(launchStore.newEntry.image);
+    }
+  }
+
+  @action
+  isNewEntryNegative() {
+    if(!launchStore.newEntry.amount.toString().contains('-')) {
+      changeValueType();
+    }
   }
 
   @action
@@ -127,23 +91,23 @@ abstract class _LaunchControllerBase with Store {
   @action
   populateLaunch() async {
     categoriesModels = debit ? await launchService.getDebit() : await launchService.getCredit();
-    categoryDropDownObject = categoriesModels[0];
+    launchStore.categoryDropDownObject = categoriesModels[0];
     valueButtonText = debit ? "DEBITAR" : "CREDITAR";
   }
   
-  isLocalizationActivated() {
-    localizationActivate = launchStore.latitude != 0.0 ? true : false;
-    launchStore.latitude = entryModel.latitude;
-    launchStore.longitude = entryModel.longitude;
+  isLocalizationActivated() async {
+    localizationActivate = await launchStore.latitude != 0.0 ? true : false;
+    launchStore.latitude = await launchStore.newEntry.latitude;
+    launchStore.longitude = await launchStore.newEntry.longitude;
   }
 
   @action
   checkArrayCategory() async {
-    if(entryModel != null) {
-      Categorie response = await findCategoryId(entryModel.category_id);
+    if(launchStore.newEntry != null) {
+      Categorie response = await findCategoryId(launchStore.newEntry.category_id);
       var newResponse = categoriesModels.indexOf(response);
       dropDownCategoriesId = newResponse; 
-      categoryDropDownObject = response;
+      launchStore.categoryDropDownObject = response;
       return newResponse;
     }
   }
@@ -165,55 +129,47 @@ abstract class _LaunchControllerBase with Store {
   }
 
   @action
-  changeValue(double newValue) => value = newValue;
+  changeValue(double newValue) => launchStore.value = newValue;
 
   @action 
   changeCategories(Categorie newDropDownCategories) async {
     dropDownCategoriesId = await categoriesModels.indexOf(newDropDownCategories);
-    categoryDropDownObject = newDropDownCategories;
+    launchStore.categoryDropDownObject = newDropDownCategories;
   }
 
   @action
-  changeDescription(String value) => descriptionChanged = value;
+  changeDescription(String value) => launchStore.description = value;
 
   @action
   Future activateLocalization() async {
     localizationActivate = !localizationActivate;
-
+    loading = true;
+    
     try {
-      print(launchStore.latitude);
-      launchStore.latitude = localizationActivate ? await launchInternalComponentsService.getLatitude() : 0.0;
-      launchStore.longitude = localizationActivate ? await launchInternalComponentsService.getLongitude() : 0.0;
-      await launchStore.decodeCoordinates();
+      if(localizationActivate) {
+        launchStore.latitude = await launchInternalComponentsService.getLatitude();
+        launchStore.longitude = await launchInternalComponentsService.getLongitude();
+        await launchStore.decodeCoordinates();
+        loading = false;
+      } else {
+        launchStore.longitude = 0.0;
+        launchStore.latitude = 0.0;
+        loading = false;
+      }
     } catch (e) {
       print(e);
     }
-    
-
   }
 
   @action
   setDebitCredit() async {
     try {
       if(debit) {
-        value *= -1;
+        launchStore.value *= -1;
       }
 
-      var addressSplitted = launchStore.addresses.first.addressLine.split(',');
-
-      Entrie object = Entrie(
-        id: entryModel?.id, 
-        amount: value == 0.0 && entryModel.amount != null ? entryModel.amount : value, 
-        description: entryModel.description == null || descriptionChanged != null ? descriptionChanged : entryModel.description, 
-        entryAt: DateTime.now(), 
-        latitude: launchStore.latitude, 
-        longitude: launchStore.longitude, 
-        address: entryModel.address == null ? '${addressSplitted[0]}' : entryModel.address, 
-        image: entryModel.image != null ? entryModel.image : image?.path, 
-        isInit: 0, 
-        category_id: categoryDropDownObject.id
-      );
-
+      Entrie object = await launchStore.createObjectEntry();
+  
       await launchService.insertData(object);
 
       balanceStore.getBalance();

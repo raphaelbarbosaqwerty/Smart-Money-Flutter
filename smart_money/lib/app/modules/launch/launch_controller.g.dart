@@ -25,21 +25,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$valueAtom = Atom(name: '_LaunchControllerBase.value');
-
-  @override
-  double get value {
-    _$valueAtom.reportRead();
-    return super.value;
-  }
-
-  @override
-  set value(double value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
-    });
-  }
-
   final _$dropDownCategoriesIdAtom =
       Atom(name: '_LaunchControllerBase.dropDownCategoriesId');
 
@@ -118,37 +103,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$entryModelAtom = Atom(name: '_LaunchControllerBase.entryModel');
-
-  @override
-  dynamic get entryModel {
-    _$entryModelAtom.reportRead();
-    return super.entryModel;
-  }
-
-  @override
-  set entryModel(dynamic value) {
-    _$entryModelAtom.reportWrite(value, super.entryModel, () {
-      super.entryModel = value;
-    });
-  }
-
-  final _$descriptionChangedAtom =
-      Atom(name: '_LaunchControllerBase.descriptionChanged');
-
-  @override
-  String get descriptionChanged {
-    _$descriptionChangedAtom.reportRead();
-    return super.descriptionChanged;
-  }
-
-  @override
-  set descriptionChanged(String value) {
-    _$descriptionChangedAtom.reportWrite(value, super.descriptionChanged, () {
-      super.descriptionChanged = value;
-    });
-  }
-
   final _$localizationActivateAtom =
       Atom(name: '_LaunchControllerBase.localizationActivate');
 
@@ -166,95 +120,27 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$imageAtom = Atom(name: '_LaunchControllerBase.image');
+  final _$loadingAtom = Atom(name: '_LaunchControllerBase.loading');
 
   @override
-  File get image {
-    _$imageAtom.reportRead();
-    return super.image;
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
   }
 
   @override
-  set image(File value) {
-    _$imageAtom.reportWrite(value, super.image, () {
-      super.image = value;
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
     });
   }
 
-  final _$pickerAtom = Atom(name: '_LaunchControllerBase.picker');
+  final _$changeEntryAsyncAction =
+      AsyncAction('_LaunchControllerBase.changeEntry');
 
   @override
-  ImagePicker get picker {
-    _$pickerAtom.reportRead();
-    return super.picker;
-  }
-
-  @override
-  set picker(ImagePicker value) {
-    _$pickerAtom.reportWrite(value, super.picker, () {
-      super.picker = value;
-    });
-  }
-
-  final _$pickedFileAtom = Atom(name: '_LaunchControllerBase.pickedFile');
-
-  @override
-  PickedFile get pickedFile {
-    _$pickedFileAtom.reportRead();
-    return super.pickedFile;
-  }
-
-  @override
-  set pickedFile(PickedFile value) {
-    _$pickedFileAtom.reportWrite(value, super.pickedFile, () {
-      super.pickedFile = value;
-    });
-  }
-
-  final _$errorImageAtom = Atom(name: '_LaunchControllerBase.errorImage');
-
-  @override
-  dynamic get errorImage {
-    _$errorImageAtom.reportRead();
-    return super.errorImage;
-  }
-
-  @override
-  set errorImage(dynamic value) {
-    _$errorImageAtom.reportWrite(value, super.errorImage, () {
-      super.errorImage = value;
-    });
-  }
-
-  final _$getImageAsyncAction = AsyncAction('_LaunchControllerBase.getImage');
-
-  @override
-  Future<dynamic> getImage() {
-    return _$getImageAsyncAction.run(() => super.getImage());
-  }
-
-  final _$retrieveLostDataAsyncAction =
-      AsyncAction('_LaunchControllerBase.retrieveLostData');
-
-  @override
-  Future<void> retrieveLostData() {
-    return _$retrieveLostDataAsyncAction.run(() => super.retrieveLostData());
-  }
-
-  final _$changeEntryModelAsyncAction =
-      AsyncAction('_LaunchControllerBase.changeEntryModel');
-
-  @override
-  Future changeEntryModel(dynamic genericObject) {
-    return _$changeEntryModelAsyncAction
-        .run(() => super.changeEntryModel(genericObject));
-  }
-
-  final _$editEntryAsyncAction = AsyncAction('_LaunchControllerBase.editEntry');
-
-  @override
-  Future editEntry() {
-    return _$editEntryAsyncAction.run(() => super.editEntry());
+  Future changeEntry(dynamic genericObject) {
+    return _$changeEntryAsyncAction.run(() => super.changeEntry(genericObject));
   }
 
   final _$changeValueTypeAsyncAction =
@@ -320,11 +206,33 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
       ActionController(name: '_LaunchControllerBase');
 
   @override
-  File getImageSaved(String imagePath) {
+  dynamic changeMoneyMaskValue(double value) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.getImageSaved');
+        name: '_LaunchControllerBase.changeMoneyMaskValue');
     try {
-      return super.getImageSaved(imagePath);
+      return super.changeMoneyMaskValue(value);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeImagePreview() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeImagePreview');
+    try {
+      return super.changeImagePreview();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic isNewEntryNegative() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.isNewEntryNegative');
+    try {
+      return super.isNewEntryNegative();
     } finally {
       _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -356,19 +264,13 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   String toString() {
     return '''
 categoriesModels: ${categoriesModels},
-value: ${value},
 dropDownCategoriesId: ${dropDownCategoriesId},
 debit: ${debit},
 moneyMask: ${moneyMask},
 valueType: ${valueType},
 valueButtonText: ${valueButtonText},
-entryModel: ${entryModel},
-descriptionChanged: ${descriptionChanged},
 localizationActivate: ${localizationActivate},
-image: ${image},
-picker: ${picker},
-pickedFile: ${pickedFile},
-errorImage: ${errorImage}
+loading: ${loading}
     ''';
   }
 }
