@@ -1,5 +1,5 @@
 # Smart-Money-Flutter
-* I decided to convert the entire App Ionic [Smart-Money](https://github.com/raphaelbarbosaqwerty/Ionic) to Flutter App.
+* I decided to convert the entire App Ionic [Smart-Money](https://github.com/raphaelbarbosaqwerty/Smart-Money-Ionic) to Flutter App.
 ## Using
 * Slidy (CLI).
 * Modular.
