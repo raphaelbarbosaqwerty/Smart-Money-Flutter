@@ -1,7 +1,6 @@
 import 'package:flutter_modular/flutter_modular_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/camera_button_controller.dart';
 import 'package:smart_money/app/modules/launch/launch_module.dart';
 
 void main() {

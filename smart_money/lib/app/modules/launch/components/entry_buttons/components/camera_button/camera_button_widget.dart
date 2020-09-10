@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/launch_image_picker_store.dart';
-import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
+import 'package:smart_money/app/components/floating_custom_button/floating_custom_button_widget.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/camera_image_picker_store.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 
 class CameraButtonWidget extends StatefulWidget {
@@ -17,7 +17,8 @@ class CameraButtonWidget extends StatefulWidget {
 }
 
 class _CameraButtonWidgetState extends State<CameraButtonWidget> {
-  LaunchImagePickerStore launchImagePickerStore = Modular.get();
+  
+  CameraImagePickerStore cameraImagePickerStore = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,14 @@ class _CameraButtonWidgetState extends State<CameraButtonWidget> {
       builder: (_) {
         return FloatingCustomButtonWidget(
           heroTag: 'Camera',
-          backgroundColor: widget.entryObject?.image != null || launchImagePickerStore.image != null ? Colors.blueAccent : Hexcolor('#34495e'),
+          backgroundColor: widget.entryObject?.image != null || cameraImagePickerStore.image != null ? Colors.blueAccent : Hexcolor('#34495e'),
           onPressed: () {
-            if(widget.entryObject?.image != null || launchImagePickerStore.image != null) {
+            if(widget.entryObject?.image != null || cameraImagePickerStore.image != null) {
               asuka.showDialog(
                 builder: (context) => _alertImage()
               );
             } else {
-              launchImagePickerStore.getImage();
+              cameraImagePickerStore.getImage();
               print('Imagem nula');
             }
           },
@@ -51,11 +52,11 @@ class _CameraButtonWidgetState extends State<CameraButtonWidget> {
           child: Observer(
             builder: (_) {
               return Center(
-              child: launchImagePickerStore.image.path == null && widget.entryObject?.image == null
+              child: cameraImagePickerStore.image.path == null && widget.entryObject?.image == null
                   ? Text('No image selected.')
-                  : Image.file(launchImagePickerStore.getImageSaved(
+                  : Image.file(cameraImagePickerStore.getImageSaved(
                     widget.entryObject?.image == null ? 
-                    launchImagePickerStore.image.path : 
+                    cameraImagePickerStore.image.path : 
                     widget.entryObject.image)),
               );
             },
@@ -71,7 +72,7 @@ class _CameraButtonWidgetState extends State<CameraButtonWidget> {
           FlatButton(
             child: Text('Nova foto'),
             onPressed: () {
-              launchImagePickerStore.getImage();
+              cameraImagePickerStore.getImage();
             },
           ),
         ],

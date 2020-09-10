@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 
-part 'launch_image_picker_store.g.dart';
+part 'camera_image_picker_store.g.dart';
 
-class LaunchImagePickerStore = _LaunchImagePickerStoreBase with _$LaunchImagePickerStore;
+class CameraImagePickerStore = _CameraImagePickerStoreBase with _$CameraImagePickerStore;
 
-abstract class _LaunchImagePickerStoreBase with Store {
+abstract class _CameraImagePickerStoreBase with Store {
   
   @observable
   File image = null;

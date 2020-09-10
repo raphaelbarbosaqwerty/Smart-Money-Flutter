@@ -110,7 +110,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
               },
             ),
           ),
-          EntryButtonsWidget(controller: controller, entryObject: controller.launchStore.newEntry),
+          EntryButtonsWidget(controller: controller, entryObject: controller.editStore.newEntry),
         ],
       )
     );

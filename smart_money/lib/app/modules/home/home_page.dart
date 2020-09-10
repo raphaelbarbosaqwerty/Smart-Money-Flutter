@@ -39,22 +39,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
             ),
           ),
         ),
-        Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 120, 5, 0),
-              child: FloatingActionButton(
-                onPressed: () async {
-                  Modular.to.pushNamed('/launch');
-                },
-                backgroundColor: Colors.green,
-                child: Icon(Icons.add),
-              )
-            ),
-          ],
-        ),
       ], 
     );
   }

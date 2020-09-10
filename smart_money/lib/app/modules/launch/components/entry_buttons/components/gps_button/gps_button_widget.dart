@@ -5,23 +5,22 @@ import 'package:smart_money/app/components/floating_custom_button/floating_custo
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 
-class CalenderButtonWidget extends StatelessWidget {
-  final LaunchController controller;
+class GpsButtonWidget extends StatelessWidget {
+
   final Entrie entryObject;
+  final LaunchController controller;
 
-  const CalenderButtonWidget({Key key, this.controller, this.entryObject}) : super(key: key);
-
+  const GpsButtonWidget({Key key, this.entryObject, this.controller}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) {
         return FloatingCustomButtonWidget(
-          heroTag: 'Calender',
-          backgroundColor: entryObject?.entryAt != null ? Colors.blueAccent : Hexcolor('#34495e'),
-          onPressed: () {
-            print('Configure Table Calendar');
-          },
-          child: Icon(Icons.calendar_today),
+          heroTag: 'Pin',
+          backgroundColor: controller.gpsStore.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
+          onPressed: controller.activateLocalization,
+          child: controller.loading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white)) : Icon(Icons.pin_drop),
         );
       },
     );

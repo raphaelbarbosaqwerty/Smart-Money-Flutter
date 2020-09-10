@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'launch_image_picker_store.dart';
+part of 'camera_image_picker_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,8 +8,8 @@ part of 'launch_image_picker_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
-  final _$imageAtom = Atom(name: '_LaunchImagePickerStoreBase.image');
+mixin _$CameraImagePickerStore on _CameraImagePickerStoreBase, Store {
+  final _$imageAtom = Atom(name: '_CameraImagePickerStoreBase.image');
 
   @override
   File get image {
@@ -24,7 +24,7 @@ mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
     });
   }
 
-  final _$pickerAtom = Atom(name: '_LaunchImagePickerStoreBase.picker');
+  final _$pickerAtom = Atom(name: '_CameraImagePickerStoreBase.picker');
 
   @override
   ImagePicker get picker {
@@ -39,7 +39,7 @@ mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
     });
   }
 
-  final _$pickedFileAtom = Atom(name: '_LaunchImagePickerStoreBase.pickedFile');
+  final _$pickedFileAtom = Atom(name: '_CameraImagePickerStoreBase.pickedFile');
 
   @override
   PickedFile get pickedFile {
@@ -54,7 +54,7 @@ mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
     });
   }
 
-  final _$errorImageAtom = Atom(name: '_LaunchImagePickerStoreBase.errorImage');
+  final _$errorImageAtom = Atom(name: '_CameraImagePickerStoreBase.errorImage');
 
   @override
   dynamic get errorImage {
@@ -70,7 +70,7 @@ mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
   }
 
   final _$getImageAsyncAction =
-      AsyncAction('_LaunchImagePickerStoreBase.getImage');
+      AsyncAction('_CameraImagePickerStoreBase.getImage');
 
   @override
   Future<dynamic> getImage() {
@@ -78,24 +78,24 @@ mixin _$LaunchImagePickerStore on _LaunchImagePickerStoreBase, Store {
   }
 
   final _$retrieveLostDataAsyncAction =
-      AsyncAction('_LaunchImagePickerStoreBase.retrieveLostData');
+      AsyncAction('_CameraImagePickerStoreBase.retrieveLostData');
 
   @override
   Future<void> retrieveLostData() {
     return _$retrieveLostDataAsyncAction.run(() => super.retrieveLostData());
   }
 
-  final _$_LaunchImagePickerStoreBaseActionController =
-      ActionController(name: '_LaunchImagePickerStoreBase');
+  final _$_CameraImagePickerStoreBaseActionController =
+      ActionController(name: '_CameraImagePickerStoreBase');
 
   @override
   File getImageSaved(String imagePath) {
-    final _$actionInfo = _$_LaunchImagePickerStoreBaseActionController
-        .startAction(name: '_LaunchImagePickerStoreBase.getImageSaved');
+    final _$actionInfo = _$_CameraImagePickerStoreBaseActionController
+        .startAction(name: '_CameraImagePickerStoreBase.getImageSaved');
     try {
       return super.getImageSaved(imagePath);
     } finally {
-      _$_LaunchImagePickerStoreBaseActionController.endAction(_$actionInfo);
+      _$_CameraImagePickerStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 

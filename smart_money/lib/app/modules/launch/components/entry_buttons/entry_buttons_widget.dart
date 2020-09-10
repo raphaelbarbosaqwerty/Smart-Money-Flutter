@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:smart_money/app/components/floating_custom_button/floating_custom_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/entry_buttons/components/calender_button/calender_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/camera_button_widget.dart';
-import 'package:smart_money/app/modules/launch/components/floating_custom_button/floating_custom_button_widget.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/gps_button/gps_button_widget.dart';
 import 'package:smart_money/app/modules/launch/components/message/message_widget.dart';
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
@@ -55,16 +56,7 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
               SizedBox(
                 width: 8,
               ),
-              Observer(
-                builder: (_) {
-                  return FloatingCustomButtonWidget(
-                    heroTag: 'Pin',
-                    backgroundColor: widget.controller.launchStore.latitude != 0.0 ? Colors.blueAccent : Hexcolor('#34495e'),
-                    onPressed: widget.controller.activateLocalization,
-                    child: widget.controller.loading ? CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(Colors.white)) : Icon(Icons.pin_drop),
-                  );
-                },
-              ),
+              GpsButtonWidget(controller: widget.controller, entryObject: widget.entryObject),
               SizedBox(
                 width: 8,
               ),

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:mobx/mobx.dart';
-import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
-import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/launch_image_picker_store.dart';
-import 'package:smart_money/app/modules/launch/stores/launch_store.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/camera_button/stores/camera_image_picker_store.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/edit_button/stores/edit_store.dart';
+import 'package:smart_money/app/modules/launch/components/entry_buttons/components/gps_button/stores/gps_store.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
 
@@ -15,17 +15,21 @@ part 'launch_controller.g.dart';
 class LaunchController = _LaunchControllerBase with _$LaunchController;
 
 abstract class _LaunchControllerBase with Store {
-  
-  LaunchInternalComponentsService launchInternalComponentsService;
-  LaunchImagePickerStore launchImagePickerStore;
+  CameraImagePickerStore cameraImagePickerStore;
   ILaunchService launchService;
   BalanceStore balanceStore;
-  LaunchStore launchStore;
-  
-  _LaunchControllerBase({this.launchImagePickerStore, this.launchStore, this.balanceStore, this.launchService, this.launchInternalComponentsService}) {
+  EditStore editStore;
+  GpsStore gpsStore;
+
+  _LaunchControllerBase(
+      {this.editStore,
+      this.cameraImagePickerStore,
+      this.balanceStore,
+      this.launchService,
+      this.gpsStore}) {
     populateLaunch();
   }
-  
+
   @observable
   List<dynamic> categoriesModels;
 
@@ -52,8 +56,8 @@ abstract class _LaunchControllerBase with Store {
 
   @action
   changeEntry(Entrie genericObject) async {
-    await launchStore.changeEntry(genericObject);
-    await changeMoneyMaskValue(launchStore.newEntry.amount);
+    await editStore.changeEntry(genericObject);
+    await changeMoneyMaskValue(editStore.newEntry.amount);
     await changeImagePreview();
     await isNewEntryNegative();
     await isLocalizationActivated();
@@ -67,16 +71,14 @@ abstract class _LaunchControllerBase with Store {
 
   @action
   changeImagePreview() {
-    if(launchStore.newEntry.image != null) {
-      launchImagePickerStore.image = File(launchStore.newEntry.image);
+    if (editStore.newEntry.image != null) {
+      cameraImagePickerStore.image = File(editStore.newEntry.image);
     }
   }
 
   @action
   isNewEntryNegative() {
-    if(!launchStore.newEntry.amount.toString().contains('-')) {
-      changeValueType();
-    }
+    editStore.newEntry.amount.toString().contains('-') ? false : changeValueType();
   }
 
   @action
@@ -90,24 +92,26 @@ abstract class _LaunchControllerBase with Store {
 
   @action
   populateLaunch() async {
-    categoriesModels = debit ? await launchService.getDebit() : await launchService.getCredit();
-    launchStore.categoryDropDownObject = categoriesModels[0];
+    categoriesModels = debit
+        ? await launchService.getDebit()
+        : await launchService.getCredit();
+    editStore.categoryDropDownObject = categoriesModels[0];
     valueButtonText = debit ? "DEBITAR" : "CREDITAR";
   }
-  
+
   isLocalizationActivated() async {
-    localizationActivate = await launchStore.latitude != 0.0 ? true : false;
-    launchStore.latitude = await launchStore.newEntry.latitude;
-    launchStore.longitude = await launchStore.newEntry.longitude;
+    localizationActivate = await gpsStore.latitude != 0.0 ? true : false;
+    gpsStore.latitude = await editStore.newEntry.latitude;
+    gpsStore.longitude = await editStore.newEntry.longitude;
   }
 
   @action
   checkArrayCategory() async {
-    if(launchStore.newEntry != null) {
-      Categorie response = await findCategoryId(launchStore.newEntry.category_id);
+    if (editStore.newEntry != null) {
+      Categorie response = await findCategoryId(editStore.newEntry.category_id);
       var newResponse = categoriesModels.indexOf(response);
-      dropDownCategoriesId = newResponse; 
-      launchStore.categoryDropDownObject = response;
+      dropDownCategoriesId = newResponse;
+      editStore.categoryDropDownObject = response;
       return newResponse;
     }
   }
@@ -120,40 +124,40 @@ abstract class _LaunchControllerBase with Store {
     categoriesModels = await launchService.getListCategories();
 
     categoriesModels.forEach((element) {
-      if(element.id == id) {
+      if (element.id == id) {
         categorie = element;
       }
-    });   
+    });
 
     return categorie;
   }
 
   @action
-  changeValue(double newValue) => launchStore.value = newValue;
+  changeValue(double newValue) => editStore.value = newValue;
 
-  @action 
+  @action
   changeCategories(Categorie newDropDownCategories) async {
-    dropDownCategoriesId = await categoriesModels.indexOf(newDropDownCategories);
-    launchStore.categoryDropDownObject = newDropDownCategories;
+    dropDownCategoriesId =
+        await categoriesModels.indexOf(newDropDownCategories);
+    editStore.categoryDropDownObject = newDropDownCategories;
   }
 
   @action
-  changeDescription(String value) => launchStore.description = value;
+  changeDescription(String value) => editStore.description = value;
 
   @action
   Future activateLocalization() async {
     localizationActivate = !localizationActivate;
     loading = true;
-    
+
     try {
-      if(localizationActivate) {
-        launchStore.latitude = await launchInternalComponentsService.getLatitude();
-        launchStore.longitude = await launchInternalComponentsService.getLongitude();
-        await launchStore.decodeCoordinates();
+      if (localizationActivate) {
+        await gpsStore.getCoordinates();
+        await gpsStore.decodeCoordinates();
         loading = false;
       } else {
-        launchStore.longitude = 0.0;
-        launchStore.latitude = 0.0;
+        gpsStore.longitude = 0.0;
+        gpsStore.latitude = 0.0;
         loading = false;
       }
     } catch (e) {
@@ -164,14 +168,12 @@ abstract class _LaunchControllerBase with Store {
   @action
   setDebitCredit() async {
     try {
-      if(debit) {
-        launchStore.value *= -1;
+      if (debit) {
+        editStore.value *= -1;
       }
 
-      Entrie object = await launchStore.createObjectEntry();
-  
+      Entrie object = await editStore.createObjectEntry();
       await launchService.insertData(object);
-
       balanceStore.getBalance();
     } catch (e) {
       print(e);

@@ -16,18 +16,16 @@ class LaunchService implements ILaunchService {
 
   @override
   Future<void> insertData(Entrie object) async {
-
     if(object.id == null) {
       await generalDatabase.entrieDao.addEntry(object); 
     } else {
-      await generalDatabase.entrieDao.updateEntry(object);
+      await updateData(object);
     }
-
   }
 
   @override
-  Future<void> updateData(Entrie entry) {
-    throw UnimplementedError();
+  Future<void> updateData(Entrie entry) async {
+    await generalDatabase.entrieDao.updateEntry(entry);
   }
 
   @override

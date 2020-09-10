@@ -5,9 +5,10 @@ class FloatingCustomButtonWidget extends StatelessWidget {
   final String heroTag;
   final Function onPressed;
   final Color backgroundColor;
+  final double elevation;
 
   FloatingCustomButtonWidget(
-      {this.child, this.heroTag, this.onPressed, this.backgroundColor});
+      {this.child, this.heroTag, this.elevation, this.onPressed, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class FloatingCustomButtonWidget extends StatelessWidget {
       heroTag: heroTag,
       onPressed: onPressed,
       backgroundColor: backgroundColor,
-      elevation: 0,
+      elevation: elevation,
       child: child,
     );
   }
