@@ -3,8 +3,6 @@ import 'package:smart_money/app/modules/launch/components/entry_buttons/componen
 import 'package:smart_money/app/modules/launch/components/entry_buttons/components/edit_button/stores/edit_store.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service.dart';
 import 'package:smart_money/app/modules/launch/services/internal/gps/launch_internal_components_service_interface.dart';
-import 'package:smart_money/app/shared/databases/general_database.dart';
-import 'package:smart_money/app/shared/databases/general_database_interface.dart';
 
 import 'components/entry_buttons/components/calender_button/stores/calender_store_widget.dart';
 import 'components/entry_buttons/components/gps_button/stores/gps_store.dart';
@@ -35,8 +33,6 @@ class LaunchModule extends ChildModule {
         Bind<ILaunchInternalComponentsService>(
             (i) => LaunchInternalComponentsService()),
 
-        // GeneralDatabase
-        Bind<IGeneralDatabase>((i) => GeneralDatabase()),
       ];
 
   @override

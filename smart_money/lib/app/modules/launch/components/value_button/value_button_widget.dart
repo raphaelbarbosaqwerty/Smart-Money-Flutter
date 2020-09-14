@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:smart_money/app/components/form_field/form_field_widget.dart';
-import 'package:smart_money/app/modules/launch/launch_controller.dart';
 
 class ValueButtonWidget extends StatelessWidget {
   
-  final LaunchController controller;
+  final dynamic controller;
 
   ValueButtonWidget({this.controller});
   

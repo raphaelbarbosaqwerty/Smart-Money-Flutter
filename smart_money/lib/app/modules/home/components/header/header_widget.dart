@@ -33,7 +33,7 @@ class HeaderWidget extends StatelessWidget {
             ),
             Container(
               child: Center(
-                child: MoneyBalanceWidget(fontSize: 32, color: Colors.white) //Text('R\$ ${controller.balanceStore.value.toStringAsFixed(2)}', style: TextStyle(color: Colors.white, fontSize: 32)),
+                child: MoneyBalanceWidget(fontSize: 32, color: Colors.white)
               ),
             ),
           ],

@@ -1,5 +1,4 @@
 import 'package:smart_money/app/modules/home/services/home_service_interface.dart';
-import 'package:smart_money/app/shared/databases/dao/categories_dao.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/databases/general_database_interface.dart';
 

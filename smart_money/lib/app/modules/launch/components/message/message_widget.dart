@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:asuka/asuka.dart' as asuka;
+import 'package:smart_money/app/shared/stores/balance_store.dart';
 
-class MessageWidget extends StatelessWidget {
+class MessageWidget extends StatefulWidget {
 
   final LaunchController controller;
   final int id;
   MessageWidget({this.controller, this.id});
+
+  @override
+  _MessageWidgetState createState() => _MessageWidgetState();
+}
+
+class _MessageWidgetState extends State<MessageWidget> {
+
+  BalanceStore balanceStore = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +39,9 @@ class MessageWidget extends StatelessWidget {
           ),
           FlatButton(
             child: Text('Sim'),
-            onPressed: () {
-              // TODO - Refactoring
-              controller.launchService.deleteData(id);
+            onPressed: () async {
+              widget.controller.launchService.deleteData(widget.id);
+              await balanceStore.getBalance();
               Navigator.of(context).pop();
               Modular.to.pop();
 

@@ -90,21 +90,6 @@ class GeneralDatabase extends _$GeneralDatabase implements IGeneralDatabase {
       for(var category in categoriesModelList) {
         await categorieDao.insertCategory(category);
       }
-
-      entrieDao.addEntry(
-        Entrie(
-          id: null, 
-          amount: 8000.0, 
-          description: 'Primeiro salário', 
-          entryAt: DateTime.now(), 
-          latitude: 0, 
-          longitude: 0, 
-          address: null, 
-          image: null, 
-          isInit: 1, 
-          category_id: 15
-        )
-      );
     }
   }
 

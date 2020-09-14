@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smart_money/app/components/floating_custom_button/floating_custom_button_widget.dart';
@@ -24,24 +23,20 @@ class _CalenderButtonWidgetState extends State<CalenderButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (_) {
-        return FloatingCustomButtonWidget(
-          heroTag: 'Calender',
-          backgroundColor: widget.entryObject?.entryAt != null || calenderStore.getDateTime() != null ? Colors.blueAccent : Hexcolor('#34495e'),
-          onPressed: () async {
-            showDatePicker(
-              context: context, 
-              initialDate: widget.entryObject.entryAt != null ? widget.entryObject.entryAt : DateTime.now(), 
-              firstDate: DateTime(2020), 
-              lastDate: DateTime(2033),
-            ).then((value) {
-              calenderStore.changeDateTime(value);
-            });
-          },
-          child: Icon(Icons.calendar_today),
-        );
+    return FloatingCustomButtonWidget(
+      heroTag: 'Calender',
+      backgroundColor: widget.entryObject?.entryAt != null || calenderStore.getDateTime() != null ? Colors.blueAccent : Hexcolor('#34495e'),
+      onPressed: () async {
+        showDatePicker(
+          context: context, 
+          initialDate: widget.entryObject.entryAt != null ? widget.entryObject.entryAt : DateTime.now(), 
+          firstDate: DateTime(2020), 
+          lastDate: DateTime(2033),
+        ).then((value) {
+          calenderStore.changeDateTime(value);
+        });
       },
+      child: Icon(Icons.calendar_today),
     );
   }
 }

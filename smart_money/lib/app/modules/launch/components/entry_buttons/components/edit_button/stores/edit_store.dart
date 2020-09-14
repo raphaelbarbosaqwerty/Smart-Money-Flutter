@@ -26,6 +26,7 @@ abstract class _EditStoreBase with Store {
   double amount = 0.0;
 
   @observable
+  // ignore: missing_required_param
   dynamic newEntry = Entrie();
 
   @observable

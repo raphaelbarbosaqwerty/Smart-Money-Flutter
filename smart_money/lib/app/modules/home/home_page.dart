@@ -20,7 +20,6 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   @override
   void initState() {
     controller.balanceStore.getBalance();
-    // TODO: implement initState
     super.initState();
   }
   @override
