@@ -28,7 +28,7 @@ class _LaunchPageState extends ModularState<LaunchPage, LaunchController> {
   @override
   void initState() {
     if(widget.entryObject != null) {
-      controller.changeEntry(widget.entryObject);
+      controller.checkIfExistsEntry(widget.entryObject);
     }
     super.initState();
   }

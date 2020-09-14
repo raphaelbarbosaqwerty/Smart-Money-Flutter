@@ -36,4 +36,17 @@ abstract class _GpsStoreBase with Store {
     var coordinates = Coordinates(latitude, longitude);
     addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
   }
+
+  @action
+  changeLatitude(double value) => latitude = value;
+
+  @action
+  changeLongitude(double value) => longitude = value;
+
+  @action
+  double getLatitude() => latitude;
+
+  @action
+  double getLongitude() => longitude;
+
 }

@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:mobx/mobx.dart';
 import 'package:smart_money/app/modules/home/services/home_service_interface.dart';
+import 'package:smart_money/app/shared/databases/general_database.dart';
 import 'package:smart_money/app/shared/stores/balance_store.dart';
 
 part 'home_controller.g.dart';
@@ -25,9 +26,15 @@ abstract class _HomeControllerBase with Store {
   
   @action
   Future getTables() async {
-    entriesModel = await homeService.getCategories();
-    categoriesModel = await homeService.getEntries();
+    changeCategoriesModel(await homeService.getCategories());
+    changeEntriesModel(await homeService.getEntries());
   }
+
+  @action
+  changeEntriesModel(List<Entrie> value) => entriesModel = value;
+
+  @action
+  changeCategoriesModel(List<Categorie> value) => categoriesModel = value;
 
   @action
   String getColor(int index) {
@@ -38,7 +45,7 @@ abstract class _HomeControllerBase with Store {
     }
     return "";
   }
-  
+
   @observable
   int touchedIndex;
 
@@ -53,9 +60,9 @@ abstract class _HomeControllerBase with Store {
 
   isTouched() {
     if (pieTouchResponse.touchInput is FlLongPressEnd || pieTouchResponse.touchInput is FlPanEnd) {
-      touchedIndex = -1;
+      changeTouchedIndex(-1);
     } else {
-      touchedIndex = pieTouchResponse.touchedSectionIndex;
+      changeTouchedIndex(pieTouchResponse.touchedSectionIndex);
     }
   }
 

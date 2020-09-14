@@ -87,6 +87,53 @@ mixin _$GpsStore on _GpsStoreBase, Store {
     return _$decodeCoordinatesAsyncAction.run(() => super.decodeCoordinates());
   }
 
+  final _$_GpsStoreBaseActionController =
+      ActionController(name: '_GpsStoreBase');
+
+  @override
+  dynamic changeLatitude(double value) {
+    final _$actionInfo = _$_GpsStoreBaseActionController.startAction(
+        name: '_GpsStoreBase.changeLatitude');
+    try {
+      return super.changeLatitude(value);
+    } finally {
+      _$_GpsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeLongitude(double value) {
+    final _$actionInfo = _$_GpsStoreBaseActionController.startAction(
+        name: '_GpsStoreBase.changeLongitude');
+    try {
+      return super.changeLongitude(value);
+    } finally {
+      _$_GpsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  double getLatitude() {
+    final _$actionInfo = _$_GpsStoreBaseActionController.startAction(
+        name: '_GpsStoreBase.getLatitude');
+    try {
+      return super.getLatitude();
+    } finally {
+      _$_GpsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  double getLongitude() {
+    final _$actionInfo = _$_GpsStoreBaseActionController.startAction(
+        name: '_GpsStoreBase.getLongitude');
+    try {
+      return super.getLongitude();
+    } finally {
+      _$_GpsStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

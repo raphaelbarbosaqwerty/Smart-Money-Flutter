@@ -135,12 +135,13 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
     });
   }
 
-  final _$changeEntryAsyncAction =
-      AsyncAction('_LaunchControllerBase.changeEntry');
+  final _$checkIfExistsEntryAsyncAction =
+      AsyncAction('_LaunchControllerBase.checkIfExistsEntry');
 
   @override
-  Future changeEntry(dynamic genericObject) {
-    return _$changeEntryAsyncAction.run(() => super.changeEntry(genericObject));
+  Future checkIfExistsEntry(dynamic genericObject) {
+    return _$checkIfExistsEntryAsyncAction
+        .run(() => super.checkIfExistsEntry(genericObject));
   }
 
   final _$changeValueTypeAsyncAction =
@@ -217,17 +218,6 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   }
 
   @override
-  dynamic changeImagePreview() {
-    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
-        name: '_LaunchControllerBase.changeImagePreview');
-    try {
-      return super.changeImagePreview();
-    } finally {
-      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic isNewEntryNegative() {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
         name: '_LaunchControllerBase.isNewEntryNegative');
@@ -239,11 +229,88 @@ mixin _$LaunchController on _LaunchControllerBase, Store {
   }
 
   @override
+  dynamic changeDebit() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeDebit');
+    try {
+      return super.changeDebit();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeValueTypeNegative() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeValueTypeNegative');
+    try {
+      return super.changeValueTypeNegative();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeValueTypePositive() {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeValueTypePositive');
+    try {
+      return super.changeValueTypePositive();
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeDropDownCategoriesId(int value) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeDropDownCategoriesId');
+    try {
+      return super.changeDropDownCategoriesId(value);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeValueButtonText(String value) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeValueButtonText');
+    try {
+      return super.changeValueButtonText(value);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeLocalizationActivate(bool value) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeLocalizationActivate');
+    try {
+      return super.changeLocalizationActivate(value);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic changeValue(double newValue) {
     final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
         name: '_LaunchControllerBase.changeValue');
     try {
       return super.changeValue(newValue);
+    } finally {
+      _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic changeCategorieList(List<dynamic> value) {
+    final _$actionInfo = _$_LaunchControllerBaseActionController.startAction(
+        name: '_LaunchControllerBase.changeCategorieList');
+    try {
+      return super.changeCategorieList(value);
     } finally {
       _$_LaunchControllerBaseActionController.endAction(_$actionInfo);
     }

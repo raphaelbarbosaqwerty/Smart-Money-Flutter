@@ -4,12 +4,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../app/app_widget.dart';
 import '../app/modules/home/home_module.dart';
 import 'app_controller.dart';
-import 'components/card/card_controller.dart';
-import 'components/container_gradient/container_gradient_controller.dart';
 import 'modules/launch/launch_module.dart';
 import 'shared/components/money_balance/money_balance_controller.dart';
-import 'shared/databases/general_database.dart';
-import 'shared/databases/general_database_interface.dart';
 import 'shared/stores/balance_store.dart';
 
 class AppModule extends MainModule {
@@ -18,12 +14,7 @@ class AppModule extends MainModule {
         Bind((i) => AppController()),
 
         // Aditional Controllers
-        Bind((i) => CardController()),
         Bind((i) => MoneyBalanceController(i.get())),
-        Bind((i) => ContainerGradientController()),
-
-        // GeneralDatabase
-        Bind<IGeneralDatabase>((i) => GeneralDatabase()),
 
         // Stores
         Bind((i) => BalanceStore(i.get()))

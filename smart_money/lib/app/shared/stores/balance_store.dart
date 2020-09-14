@@ -19,6 +19,5 @@ abstract class _BalanceStoreBase with Store {
   @action
   Future getBalance() async {
     value = await _generalDatabase.entrieDao.sumBalance();
-    print(value);
   }
 }

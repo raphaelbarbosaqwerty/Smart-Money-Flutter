@@ -42,8 +42,9 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
                     
                     if(!snapshot.hasData) return Container();
 
-                    List<EntryWithCategory> entries = snapshot.data;
-                    
+                    List<EntryWithCategory> getEntries = snapshot.data.reversed.toList();
+                    List<EntryWithCategory> entries = getEntries.length > 4 ? getEntries.getRange(0, 4).toList() : getEntries;
+
                     return Row(
                       children: <Widget>[
                         AspectRatio(
@@ -70,11 +71,8 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
 
                                   return PieChartSectionData(
                                     color: Hexcolor('${entries[index].colorCategorie}'),
-                                    value: 40,
-                                    title: isTouched ? '40%' : '',
+                                    title: '',
                                     radius: radius,
-                                    titleStyle: TextStyle(
-                                        fontSize: fontSize, color: const Color(0xffffffff)),
                                   );
                                 }
                               )
@@ -87,29 +85,33 @@ class _ChartCategoriesWidgetState extends State<ChartCategoriesWidget> {
                           children: <Widget>[
                             Container(
                               width: 230,
-                              height: 100,
+                              height: 120,
                               child: ListView.builder(
                                 itemCount: entries.length,
                                 itemBuilder: (_, index) {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Indicator(
-                                        color: Hexcolor('${entries[index].colorCategorie}'),
-                                        text: entries[index].nameCategorie,
-                                        isSquare: false,
-                                        textColor: Colors.white,
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                        width: 10,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 0),
-                                        child: Text('R\$ ${entries[index].entrie.amount}', style: TextStyle(color: Colors.white)),
-                                      ),
-                                    ],  
+                                  return ClipRect(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Indicator(
+                                          color: Hexcolor('${entries[index].colorCategorie}'),
+                                          text: entries[index].nameCategorie,
+                                          isSquare: false,
+                                          textColor: Colors.white,
+                                        ),
+                                        SizedBox(
+                                          height: 16,
+                                          width: 10,
+                                        ),
+                                        Flexible(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 0),
+                                            child: Text('R\$ ${entries[index].entrie.amount}', overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white)),
+                                          ),
+                                        ),
+                                      ],  
+                                    ),
                                   );
                                 },
                               ),

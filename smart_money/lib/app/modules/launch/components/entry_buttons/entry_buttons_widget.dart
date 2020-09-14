@@ -10,6 +10,7 @@ import 'package:smart_money/app/modules/launch/components/entry_buttons/componen
 import 'package:smart_money/app/modules/launch/components/message/message_widget.dart';
 import 'package:smart_money/app/modules/launch/launch_controller.dart';
 import 'package:smart_money/app/shared/databases/general_database.dart';
+import 'package:smart_money/app/shared/stores/balance_store.dart';
 
 import 'components/edit_button/edit_button_widget.dart';
 
@@ -24,6 +25,7 @@ class EntryButtonsWidget extends StatefulWidget {
 }
 
 class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
+  BalanceStore balanceStore = Modular.get();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,8 @@ class _EntryButtonsWidgetState extends State<EntryButtonsWidget> {
                   },
                 ),
                 onPressed: () async {
-                  widget.controller.setDebitCredit();
+                  await widget.controller.setDebitCredit();
+                  await balanceStore.getBalance();
                   Modular.to.pop();
                 },
                 textColor: Colors.green,

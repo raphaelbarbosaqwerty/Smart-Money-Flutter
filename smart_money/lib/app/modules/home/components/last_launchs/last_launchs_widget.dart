@@ -21,6 +21,7 @@ class LastLaunchsWidget extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: Text('Últimos Lançamentos', style: TextStyle(color: Colors.white)),
+          visualDensity: VisualDensity(horizontal: 0,  vertical: -4),
         ),
         Container(
           width: double.maxFinite,
@@ -31,8 +32,7 @@ class LastLaunchsWidget extends StatelessWidget {
               
               if(!snapshot.hasData) return Container();
 
-              List<EntryWithCategory> entries = snapshot.data;
-            
+              List<EntryWithCategory> entries = snapshot.data.reversed.toList();
 
               return ListView.separated(
                 itemCount: entries.length,
