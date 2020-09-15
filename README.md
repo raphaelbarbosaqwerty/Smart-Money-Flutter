@@ -2,9 +2,10 @@
 * I decided to convert the entire App Ionic [Smart-Money](https://github.com/raphaelbarbosaqwerty/TrainingMuscleMemory/tree/master/IonicStudy/Smart-Money) to Flutter App.
 ## Informations
 * This was the Launch version 1.0.0.
-* The App is in testing.
+* The App is in tests.
 * Remember if possible open an Issue.
 * The App will come to Play Store.
+* My time is very 
 
 ## Using
 * Slidy (CLI).
