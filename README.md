@@ -5,7 +5,7 @@
 * The App is in tests.
 * Remember if possible open an Issue.
 * The App will come to Play Store.
-* My time is very 
+* I have some parts to refactor on the App but my time is very short to work on the project.  
 
 ## Using
 * Slidy (CLI).
