@@ -1,7 +1,7 @@
 # Smart-Money-Flutter
 * I decided to convert the entire App Ionic [Smart-Money](https://github.com/raphaelbarbosaqwerty/TrainingMuscleMemory/tree/master/IonicStudy/Smart-Money) to Flutter App.  
-## Observations
-* I know the code here has so much smells. I'll convert this code in the future using the Clean-dart.  
+## Observations [IMPORTANT-CHECK-THIS]
+* I know the code here has so much smells. I'll convert this code in the future using the [Clean-dart](https://github.com/raphaelbarbosaqwerty/clean-dart-training).  
 
 ## Informations
 * Version 1.0.0.
